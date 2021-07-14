@@ -1,0 +1,1141 @@
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+html, body {
+	font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+main, #messages-card {
+	height: 100%;
+	padding-bottom: 0;
+}
+
+#messages-card .card-body {
+	min-height: 100%;
+}
+
+#messages-card-container {
+	height: 700px;
+	padding-bottom: 0;
+}
+
+#messages-card {
+	overflow-y: scroll;
+	height: 700px;
+}
+
+.mdl-layout__header-row span {
+	margin-left: 15px;
+	margin-top: 17px;
+}
+
+.mdl-grid {
+	max-width: 1024px;
+	margin: auto;
+}
+
+.material-icons {
+	font-size: 36px;
+	top: 8px;
+	position: relative;
+}
+
+.mdl-layout__header-row {
+	padding: 0;
+	margin: 0 auto;
+}
+
+.mdl-card__supporting-text {
+	width: auto;
+	height: 100%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#messages {
+	overflow-y: auto;
+	margin-bottom: 10px;
+	height: calc(100% - 80px);
+	display: flex;
+	flex-direction: column;
+}
+
+#message-filler {
+	flex-grow: 1;
+}
+
+.message-container:first-of-type {
+	border-top-width: 0;
+}
+
+.message-container.visible {
+	opacity: 1;
+}
+#chat-list-ui {
+	overflow-y: scroll;
+	max-height: 600px;
+}
+.message-container .pic {
+	background-image: url('/images/profile_placeholder.png');
+	background-repeat: no-repeat;
+	width: 30px;
+	height: 30px;
+	background-size: 30px;
+	border-radius: 20px;
+}
+
+.message-container .spacing {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.message-container .name {
+	display: inline-block;
+	width: 100%;
+	padding-left: 40px;
+	color: #bbb;
+	font-style: italic;
+	font-size: 12px;
+	box-sizing: border-box;
+}
+
+#message-form {
+	display: flex;
+	flex-direction: row;
+	width: calc(100% - 48px);
+	float: left;
+}
+
+#image-form {
+	display: flex;
+	flex-direction: row;
+	width: 48px;
+	float: right;
+}
+
+#message-form .mdl-textfield {
+	width: calc(100% - 100px);
+}
+
+#message-form button, #image-form button {
+	width: 100px;
+	margin: 15px 0 0 10px;
+}
+
+.mdl-card {
+	min-height: 0;
+}
+
+.mdl-card {
+	background: linear-gradient(white, #f9f9f9);
+	justify-content: space-between;
+}
+
+#user-container {
+	position: absolute;
+	display: flex;
+	flex-direction: row;
+	top: 22px;
+	width: 100%;
+	right: 0;
+	padding-left: 10px;
+	justify-content: flex-end;
+	padding-right: 10px;
+}
+
+#user-container #user-pic {
+	top: -3px;
+	position: relative;
+	display: inline-block;
+	background-image: url('/images/profile_placeholder.png');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	background-size: 40px;
+	border-radius: 20px;
+}
+
+#user-container #user-name {
+	font-size: 16px;
+	line-height: 36px;
+	padding-right: 10px;
+	padding-left: 20px;
+}
+
+#image-form #submitImage {
+	width: auto;
+	padding: 0 6px 0 1px;
+	min-width: 0;
+}
+
+#image-form #submitImage .material-icons {
+	top: -1px;
+}
+
+.message img {
+	max-width: 300px;
+	max-height: 200px;
+}
+
+#mediaCapture {
+	display: none;
+}
+
+@media screen and (max-width: 610px) {
+	header {
+		height: 113px;
+		padding-bottom: 80px !important;
+	}
+	#user-container {
+		top: 72px;
+		background-color: rgb(3, 155, 229);
+		height: 38px;
+		padding-top: 3px;
+		padding-right: 2px;
+	}
+	#user-container #user-pic {
+		top: 2px;
+		width: 33px;
+		height: 33px;
+		background-size: 33px;
+	}
+}
+
+.mdl-textfield__label:after {
+	background-color: #0288D1;
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+	color: #0288D1;
+}
+
+.mdl-button .material-icons {
+	top: -1px;
+	margin-right: 5px;
+}
+
+.chat .card {
+	height: 700px;
+	border-radius: 15px !important;
+	background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.contacts_body {
+	padding: 0.75rem 0 !important;
+	overflow-y: auto;
+	white-space: nowrap;
+	background: #dae6e8 !important;
+	overflow-y: scroll;
+	height: 291px;
+}
+
+.msg_card_body {
+	overflow-y: auto;
+	position: relative;
+}
+
+.chat .card-header {
+	border-radius: 15px 15px 0 0 !important;
+	border-bottom: 0 !important;
+}
+
+.chat .card-footer {
+	border-radius: 0 0 15px 15px !important;
+	border-top: 0 !important;
+	background: #0271b9;
+}
+
+.search {
+	border-radius: 15px 0 0 15px !important;
+	background-color: #fff;
+	border: 0 !important;
+	color: #000 !important;
+}
+
+.btn-send {
+	background: rgb(1, 79, 129) !important;
+	border: 1px solid rgb(1, 79, 129) !important;
+	color: #fff;
+	margin: 0 !important;
+	width: 115px;
+	border-top-right-radius: 11px;
+	border-bottom-right-radius: 11px;
+	height: 60px;
+}
+
+.search:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+
+.type_msg {
+	background-color: #fff;
+	border: 0 !important;
+	height: 60px !important;
+	overflow-y: auto;
+}
+
+.type_msg:focus {
+	box-shadow: none !important;
+	outline: 0px !important;
+}
+
+.attach_btn {
+	border-radius: 15px 0 0 15px !important;
+	background-color: rgba(0, 0, 0, 0.3) !important;
+	border: 0 !important;
+	color: white !important;
+	cursor: pointer;
+	height: 60px;
+}
+
+
+.search_btn {
+	border-radius: 0 15px 15px 0 !important;
+	background-color: rgba(0, 0, 0, 0.3) !important;
+	border: 0 !important;
+	color: white !important;
+	cursor: pointer;
+}
+
+.relativeone {
+	position: relative;
+}
+
+.contacts {
+	list-style: none;
+	padding: 0;
+}
+
+.contacts li {
+	width: 100% !important;
+	padding: 5px 10px;
+	margin-bottom: 15px !important;
+}
+
+.contacts .active {
+	background-color: #fff;
+}
+
+.user_img {
+	height: 70px;
+	width: 70px;
+	Taherah border: 1.5px solid #f5f6fa;
+}
+
+.user_img_msg {
+	height: 40px;
+	width: 40px;
+	border: 1.5px solid #f5f6fa;
+}
+
+.img_cont {
+	position: absolute;
+	height: 70px;
+	width: 70px;
+}
+
+.doticon .online_icon {
+	position: relative;
+	float: left;
+	margin-right: 3px;
+	width: 10px;
+	height: 10px;
+	background: rgba(2, 113, 185, 0.7);
+}
+
+.img_cont_msg {
+	height: 40px;
+	width: 40px;
+}
+
+.online_icon {
+	/* position: absolute; */
+	height: 10px;
+	width: 10px;
+	background-color: #4cd137;
+	border-radius: 50%;
+	/* bottom: 0.2em; */
+	/* right: 0.4em; */
+	/* border: 1.5px solid white; */
+	display: inline-block;
+}
+.offline {
+	background-color: #c23616 !important;
+}
+
+.user_info {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+}
+
+.video_cam {
+	margin-left: 50px;
+	margin-top: 5px;
+}
+
+.video_cam span {
+	color: white;
+	font-size: 20px;
+	cursor: pointer;
+	margin-right: 20px;
+}
+
+.msg_cotainer {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 10px;
+	border-radius: 25px;
+	background: rgba(2, 113, 185, 0.7);
+	padding: 10px;
+	position: relative;
+	color: #fff;
+}
+
+.msg_cotainer_send {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-right: 10px;
+	border-radius: 25px;
+	background-color: rgba(245, 1, 0, 0.6);
+	padding: 10px;
+	position: relative;
+	color: #fff;
+}
+
+.msg_time {
+	position: absolute;
+	left: 0;
+	bottom: -15px;
+	color: rgba(51, 47, 47, 0.98);
+	font-size: 10px;
+}
+
+.msg_time_send {
+	position: absolute;
+	right: 0;
+	bottom: -15px;
+	color: rgba(51, 47, 47, 0.98);
+	font-size: 10px;
+}
+
+.msg_head {
+	position: relative;
+}
+
+#action_menu_btn {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	color: white;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.action_menu {
+	z-index: 1;
+	position: absolute;
+	padding: 15px 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	border-radius: 15px;
+	top: 30px;
+	right: 15px;
+	display: none;
+}
+
+.action_menu ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.action_menu ul li {
+	width: 100%;
+	padding: 10px 15px;
+	margin-bottom: 5px;
+}
+
+.action_menu ul li i {
+	padding-right: 10px;
+}
+
+.action_menu ul li:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.contacts_body .user_info span {
+	font-size: 20px;
+	color: #54667a;
+}
+
+.contacts_body .user_info p {
+	font-size: 11px;
+	color: #54667a;
+	white-space: normal;
+	line-height: 15px;
+}
+
+.content-block {
+	position: relative;
+	min-height: 80px;
+}
+
+.message_unread_count {
+	position: absolute;
+	right: 0;
+	top: 10%;
+}
+
+.message_unread_count span {
+	width: 20px;
+	height: 20px;
+	border-radius: 3px !important;
+	font-size: 12px !important;
+	color: #fff !important;
+}
+
+@media ( max-width : 576px) {
+	.contacts_card {
+		margin-bottom: 15px !important;
+	}
+}
+
+.unread {
+	background-color: #044285;
+}
+
+.relative {
+	position: relative !important;
+}
+
+.user_info {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+	width: 100%;
+	padding-right: 30px;
+	padding-left: 75px;
+}
+
+.user_info_hompage {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+	width: 100%;
+	padding-right: 30px;
+}
+
+.user_info_hompage {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+}
+
+/* .user_info_hompage span {
+	font-size: 20px;
+	color: white;
+}
+
+.user_info_hompage p {
+	font-size: 10px;
+	color: rgba(255, 255, 255, 0.6);
+} */
+
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #abd9e9;
+	font-family: Arial;
+}
+
+#container {
+	width: 750px;
+	height: 800px;
+	background: #eff3f7;
+	margin: 0 auto;
+	font-size: 0;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+aside {
+	width: 260px;
+	height: 800px;
+	background-color: #3b3e49;
+	display: inline-block;
+	font-size: 15px;
+	vertical-align: top;
+}
+
+main {
+	width: 490px;
+	height: 800px;
+	display: inline-block;
+	font-size: 15px;
+	vertical-align: top;
+}
+
+aside header {
+	padding: 30px 20px;
+}
+
+aside input {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	padding: 0 50px 0 20px;
+	background-color: #5e616a;
+	border: none;
+	border-radius: 3px;
+	color: #fff;
+	background-image:
+		url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_search.png);
+	background-repeat: no-repeat;
+	background-position: 170px;
+	background-size: 40px;
+}
+
+aside input::placeholder {
+	color: #fff;
+}
+
+aside ul {
+	padding-left: 0;
+	margin: 0;
+	list-style-type: none;
+	overflow-y: scroll;
+	height: 690px;
+}
+
+aside li {
+	padding: 10px 0;
+}
+
+aside li:hover {
+	background-color: #5e616a;
+}
+
+h2, h3 {
+	margin: 0;
+}
+
+aside li img {
+	border-radius: 50%;
+	margin-left: 20px;
+	margin-right: 8px;
+}
+
+aside li div {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 12px;
+}
+
+aside li h2 {
+	font-size: 14px;
+	color: #fff;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+aside li h3 {
+	font-size: 12px;
+	color: #7e818a;
+	font-weight: normal;
+}
+
+.status {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 7px;
+}
+
+.green {
+	background-color: #58b666;
+}
+
+.orange {
+	background-color: #ff725d;
+}
+
+.blue {
+	background-color: #6fbced;
+	margin-right: 0;
+	margin-left: 7px;
+}
+
+main header {
+	height: 110px;
+	padding: 30px 20px 30px 40px;
+}
+
+main header>* {
+	display: inline-block;
+	vertical-align: top;
+}
+
+main header img:first-child {
+	border-radius: 50%;
+}
+
+main header img:last-child {
+	width: 24px;
+	margin-top: 8px;
+}
+
+main header div {
+	margin-left: 10px;
+	margin-right: 145px;
+}
+
+main header h2 {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
+main header h3 {
+	font-size: 14px;
+	font-weight: normal;
+	color: #7e818a;
+}
+
+/* #chat {
+	padding-left: 0;
+	margin: 0;
+	list-style-type: none;
+	overflow-y: scroll;
+	height: 535px;
+	border-top: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+} */
+
+
+main footer {
+	height: 155px;
+	padding: 20px 30px 10px 20px;
+}
+
+main footer textarea {
+	resize: none;
+	border: none;
+	display: block;
+	width: 100%;
+	height: 80px;
+	border-radius: 3px;
+	padding: 20px;
+	font-size: 13px;
+	margin-bottom: 13px;
+}
+
+main footer textarea::placeholder {
+	color: #ddd;
+}
+
+main footer img {
+	height: 30px;
+	cursor: pointer;
+}
+
+main footer a {
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #6fbced;
+	vertical-align: top;
+	margin-left: 333px;
+	margin-top: 5px;
+	display: inline-block;
+}
+
+.user_info {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+	width: 100%;
+	padding-right: 30px;
+}
+
+
+.chat-container {
+	border-radius: 5px;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.12),0 1px 5px 0 rgba(0,0,0,.2);
+	background-color:#fff;
+}
+.chat-container ul {
+	list-style: none;
+}
+.chat-container ul li a{
+	color:#444;
+}
+.people-list {
+	width: 28%;
+	float: left;
+	
+}
+.about p {
+	font-size: 14px;
+}
+.chat .chat-header {
+	padding: 14px;
+	border-bottom: 2px solid white;
+	background: #fff;
+}
+.chat .card-header {
+	border-radius: 0 !important;
+}
+
+.people-list .name {
+	font-size: 15px;
+	color: #3c3939;
+	font-weight: 600;
+}
+.people-list .search {
+	padding: 20px;
+	position: relative;
+}
+.people-list input {
+	border-radius: 30px;
+	border: none;
+	padding: 10px;
+	color: #000;
+	background: #eceff1;
+	width: 100%;
+	font-size: 14px;
+}
+.people-list .fa-search {
+	position: absolute;
+	right: 32px;
+	top: 32px;
+}
+.people-list #chat-list-ui {
+	padding: 0;
+	height: 660px;
+	border-top: 1px solid #ececec;
+}
+.people-list ul li {
+	padding: 14px 20px;
+}
+.people-list ul li:hover {
+ background:#F2F5F8;
+}
+/* .people-list img {
+	border-radius: 50%;
+	width: 100%;
+	height: 35px;
+	max-width: 100%;
+} */
+
+.people-list li.active {
+    background-color: #efefef;
+}
+.about p {
+    font-size: 14px;
+    margin-top: 0;
+}
+.people-list .about {
+  padding-left: 25px;
+}
+.people-list .status {
+	color: #92959E;
+	text-align: right;
+	font-size: 12px;
+}
+.chat {
+	width: 78%;
+	float: left;
+	background: #F2F5F8;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	color: #434651;
+	border-left: 1px solid #eee;
+}
+.chat .chat-header {
+	padding: 14px;
+	border-bottom: 2px solid white;
+	background: #fff;
+}
+.chat .chat-header img {
+	float: left;
+	border-radius: 50%;
+}
+.chat .chat-header .chat-about {
+  float: left;
+  padding-left: 10px;
+  margin-top: 6px;
+}
+.chat .chat-header .chat-with {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+.chat .chat-history {
+	padding: 30px 30px 20px;
+	border-bottom: 2px solid white;
+	overflow-y: scroll;
+	height: 675px;
+	background-size: cover;
+	position:relative;
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+}
+.chat-history small {
+	color: #777;
+	font-size: 12px;
+}
+.chat .chat-history .message {
+	color: white;
+	padding: 10px 15px;
+	line-height: 26px;
+	font-size: 16px;
+	border-radius: 7px;
+	margin-bottom: 0;
+	width: 90%;
+	position: relative;
+}
+.chat-history small {
+	color: #777;
+}
+.chat .chat-history .my-message {
+	background: #f7941d;
+	box-shadow: 1px 1px 10px 0 rgba(0,0,0,.14);
+}
+.chat .chat-history .other-message {
+	background: #fff;
+	box-shadow: 1px 1px 10px 0 rgba(0,0,0,.14);
+	color: #757575;
+}
+
+.chat .chat-message {
+	padding: 16px;
+	background: #fff;
+}
+.chat .chat-message textarea {
+	width: 100%;
+	border: none;
+	padding: 18px 20px;
+	font-size: 14px;
+	margin-bottom: 10px;
+	border-radius: 30px;
+	resize: none;
+	background-color:#eceff1;
+}
+
+.chat-message .btn-warning{
+	background-color:#f7941d;
+} 
+.chat-message .btn-dark{
+	background-color:#000;
+}
+.no-message-container i {
+	font-size: 7em;
+	opacity: .15;
+}
+.no-message-container p {
+	font-size: 16px;
+	color: #828282;
+}
+.online {
+  color: #86BB71;
+}
+
+.offline {
+  color: #bbb;
+}
+@media  screen and (max-width: 900px) {
+.people-list,.chat {
+	width: 100%;
+	float: none;
+	border-bottom: 1px solid #eee;
+}
+.chat-view .container{	
+ box-sizing: inherit;
+}
+}
+
+
+
+/* Styles the thumbnail */
+
+a.lightbox img {
+border: 3px solid white;
+box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+}
+
+/* Styles the lightbox, removes it from sight and adds the fade-in transition */
+
+.lightbox-target {
+	position: fixed;
+	top: -100%;
+	width: 100%;
+	background: rgba(0,0,0,.7);
+	width: 100%;
+	opacity: 0;
+	-webkit-transition: opacity .5s ease-in-out;
+	-moz-transition: opacity .5s ease-in-out;
+	-o-transition: opacity .5s ease-in-out;
+	transition: opacity .5s ease-in-out;
+	overflow: hidden;
+	left: 0;
+	z-index: 999;
+}
+
+/* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
+
+.lightbox-target img {
+margin: auto;
+position: absolute;
+top: 0;
+left:0;
+right:0;
+bottom: 0;
+max-height: 0%;
+max-width: 0%;
+border: 3px solid white;
+box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+box-sizing: border-box;
+-webkit-transition: .5s ease-in-out;
+-moz-transition: .5s ease-in-out;
+-o-transition: .5s ease-in-out;
+transition: .5s ease-in-out;
+}
+
+/* Styles the close link, adds the slide down transition */
+
+a.lightbox-close {
+display: block;
+width:50px;
+height:50px;
+box-sizing: border-box;
+background: white;
+color: black;
+text-decoration: none;
+position: absolute;
+top: -80px;
+right: 0;
+-webkit-transition: .5s ease-in-out;
+-moz-transition: .5s ease-in-out;
+-o-transition: .5s ease-in-out;
+transition: .5s ease-in-out;
+}
+
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:before {
+content: "";
+display: block;
+height: 30px;
+width: 1px;
+background: black;
+position: absolute;
+left: 26px;
+top:10px;
+-webkit-transform:rotate(45deg);
+-moz-transform:rotate(45deg);
+-o-transform:rotate(45deg);
+transform:rotate(45deg);
+}
+
+/* Provides part of the "X" to eliminate an image from the close link */
+
+a.lightbox-close:after {
+content: "";
+display: block;
+height: 30px;
+width: 1px;
+background: black;
+position: absolute;
+left: 26px;
+top:10px;
+-webkit-transform:rotate(-45deg);
+-moz-transform:rotate(-45deg);
+-o-transform:rotate(-45deg);
+transform:rotate(-45deg);
+}
+
+/* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */
+
+.lightbox-target:target {
+opacity: 1;
+top: 0;
+bottom: 0;
+}
+
+.lightbox-target:target img {
+max-height: 100%;
+max-width: 100%;
+}
+
+.lightbox-target:target a.lightbox-close {
+top: 0px;
+}
+
+.icon-download {
+	background-color: #2b2929;
+	width: 35px;
+	height: 35px;
+	padding: 5px;
+	display: inline-block;
+	border-radius: 50%;
+	text-align: center;
+	right: -14px;
+	bottom: -9px;
+	border: 2px solid #fff;
+}
+
+.icon-download i {
+	color:#fff;
+}
+
+
+.loader {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999999;
+}
+.loader:after {
+	content:"";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+   background-color:rgba(0,0,0,0.4);
+   z-index:-1;
+}
+.loader i{
+	font-size:20px;
+	color:#fff;
+}

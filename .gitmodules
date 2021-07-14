@@ -1,0 +1,42 @@
+[submodule "protected/components"]
+	path = protected/components
+	url = http://192.168.10.21/yii2/components.git
+[submodule "protected/modules/logger"]
+	path = protected/modules/logger
+	url = http://192.168.10.21/yii2/modules/logger.git
+[submodule "protected/modules/backup"]
+	path = protected/modules/backup
+	url = http://192.168.10.21/yii2/modules/backup.git	
+[submodule "protected/modules/installer"]
+	path = protected/modules/installer
+	url = http://192.168.10.21/yii2/modules/installer.git
+[submodule "protected/modules/sitemap"]
+	path = protected/modules/sitemap
+	url = http://192.168.10.21/yii2/modules/sitemap.git
+[submodule "protected/modules/seo"]
+	path = protected/modules/seo
+	url = http://192.168.10.21/yii2/modules/seo.git		
+[submodule "protected/modules/shadow"]
+	path = protected/modules/shadow
+	url = http://192.168.10.21/yii2/modules/shadow.git
+[submodule "protected/modules/blog"]
+        path = protected/modules/blog
+	url = http://192.168.10.21/yii2/modules/blog.git	
+[submodule "protected/modules/contact"]
+	path = protected/modules/contact
+	url = http://192.168.10.21/yii2/modules/contact.git	
+[submodule "protected/modules/feature"]
+	path = protected/modules/feature
+	url = http://192.168.10.21/yii2/modules/feature.git	
+[submodule "protected/modules/page"]
+	path = protected/modules/page
+	url = http://192.168.10.21/yii2/modules/page.git
+[submodule "protected/modules/translator"]
+	path = protected/modules/translator
+	url = http://192.168.10.21/yii2/modules/translator.git
+[submodule "protected/modules/notification"]
+	path = protected/modules/notification
+	url = http://192.168.10.21/yii2/modules/notification.git
+[submodule "protected/modules/payment"]
+	path = protected/modules/payment
+	url = http://192.168.10.21/yii2/modules/payment.git
