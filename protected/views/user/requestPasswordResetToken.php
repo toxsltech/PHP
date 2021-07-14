@@ -1,60 +1,49 @@
 <?php
-
-/**
- *@copyright : ToXSL Technologies Pvt. Ltd. < www.toxsl.com >
- *@author	 : Shiv Charan Panjeta < shiv@toxsl.com >
- */
-use app\components\TActiveForm;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use yii\helpers\Inflector;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\PasswordResetRequestForm */
 
+// $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = [
-    'label' => 'Users',
+    'label' => Yii::t('app', 'Request passwordReset'),
     'url' => [
-        'user/index'
+        'index'
     ]
 ];
-
-$this->params['breadcrumbs'][] = Inflector::humanize(Yii::$app->controller->action->id);
-
+$this->params['breadcrumbs'][] = \yii\helpers\Inflector::camel2words(Yii::$app->controller->action->id);
 ?>
-<div class="login-wrapper">
-	<div class="overlay-itembox">
-		<div class="py-5 form-inner-wrapper">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-7 col-lg-5 mx-auto ">
-						<div class="contact-form-bg login-signup w-100 bg-white">
 
-
-							<h3 class="section-title title mb-3">Reset Password</h3>
-							<p class="text-center">Please fill out your email. A link to
-								reset password will be sent there.</p>
-                   		<?php
-
-                    $form = TActiveForm::begin([
-                        'id' => 'request-password-reset-form',
-                        'enableClientValidation' => true,
-                        'enableAjaxValidation' => false
-                    ]);
-                    ?>
-            
-                <?= $form->field($model, 'email') ?>
-                <div class="form-group">
-                    <?= Html::submitButton('Send', ['class' => 'btn common-btn btn-block btn-signin mt-4 mt-md-0','name' => 'send-button']) ?>
+<div class="login-main">
+  <div class="container-fluid p-lg-0">
+    <div class="row p-lg-0">
+      <div class="col-lg-4 p-0">
+        <div class="left-bar">
+          <h2 class="section-hd text-white mb-30">Welcome Back !</h2>
+          <p>Healthy lifestyle begins with you and ends with TRACOL. Get started on your journey to for good . It’s TIME to start ?</p>
+        </div>
+      </div>
+      <div class="col-lg-8 light-bg pl-lg-0">
+        <div class="right-bar">
+          <div class="d-flex align-items-center mb-50 sign-top">
+            <h4>Forgot Password</h4>
+          </div>
+          <div class="form-main">
+          <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form','class'=>"sign-in-form row"]); ?>
+              <div class="col-md-12">
+                <div class="form-group mb-4">
+                <?= $form->field($model, 'email')->label(true) ?>
                 </div>
-           			<?php TActiveForm::end(); ?> 
-                                    
-               </div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
+              </div>
+              <div class="col-md-12">
+               <?= Html::submitButton('Submit', ['class' => 'btn btn-primary mb-80']) ?>
+              </div>
+       <?php ActiveForm::end(); ?>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
 

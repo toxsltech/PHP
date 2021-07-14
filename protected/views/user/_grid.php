@@ -21,26 +21,18 @@ use yii\widgets\Pjax;
             'class' => 'table table-bordered'
         ],
         'columns' => [
+            // ['class' => 'yii\grid\SerialColumn','header'=>'<a>S.No.<a/>'],
+            [
+                'name' => 'check',
+                'class' => 'yii\grid\CheckboxColumn',
+                'visible' => User::isAdmin()
+            ],
             'id',
             'full_name',
             'email:email',
-            /* 'password',*/
-            /* 'date_of_birth:date',*/
-            /* 'gender',*/
-            /* 'about_me',*/
-            /* 'contact_no',*/
-            /* 'address',*/
-            /* 'latitude',*/
-            /* 'longitude',*/
-            /* 'city',*/
-            /* 'country',*/
-            /* 'zipcode',*/
-            /* 'language',*/
-            /* ['attribute' => 'profile_file','filter'=>$searchModel->getFileOptions(),
-			'value' => function ($data) { return $data->getFileOptions($data->profile_file);  },],*/
-            /* 'tos',*/
-           // 'role_id',
-            [
+       
+        		
+        		[
                 'attribute' => 'role_id',
                 'filter' => $searchModel->getRoleOptions(),
                 'value' => function ($data) {
@@ -55,27 +47,13 @@ use yii\widgets\Pjax;
                     return $data->getStateBadge();
                 }
             ],
-            /* ['attribute' => 'type_id','filter'=>isset($searchModel)?$searchModel->getTypeOptions():null,
-			'value' => function ($data) { return $data->getType();  },],*/
-            /* 'last_visit_time:datetime',*/
-            /* 'last_action_time:datetime',*/
-            /* 'last_password_change:datetime',*/
-            /* 'login_error_count',*/
-            /* 'activation_key',*/
-            /* 'timezone',*/
+           
             'created_on:datetime',
-               /*   [ 
-				'attribute' => 'created_by_id',
-				'format' => 'raw',
-				'value' => function ($data) {
-				return $data->getRelatedDataLink ( 'created_by_id' );
-					} 
-				], */
-								
-				[
+								[
                 'class' => 'app\components\TActionColumn',
                 'template' => '{view} {update} {delete}',
                 'header' => '<a>Actions</a>'
+								    
             ]
         ]
     ]);

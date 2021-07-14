@@ -14,7 +14,6 @@ $config = [
     'id' => PROJECT_ID,
     'name' => PROJECT_NAME,
     'basePath' => PROTECTED_PATH,
-    'runtimePath' => RUNTIME_PATH,
     'bootstrap' => [
         'log'
     ],
@@ -22,21 +21,20 @@ $config = [
     'timeZone' => date_default_timezone_get(),
     'controllerNamespace' => 'app\commands',
     'controllerMap' => [
-        'clear' => 'app\components\commands\ClearController',
+        'clear' => 'app\commands\ClearController',
         'module' => 'app\components\commands\ModuleController',
-        'user' => 'app\components\commands\UserController',
-        'email-queue' => 'app\components\commands\EmailQueueController'
+        'user' => 'app\components\commands\UserController'
     ],
     'components' => [
         'urlManager' => [
             'class' => 'app\components\TUrlManager',
-            'baseUrl' => (YII_ENV == 'dev') ? 'http://localhost/jitalent-tms-web2-1295/' : 'http://192.168.10.25/'
+            'baseUrl' => (YII_ENV == 'dev') ? 'http://localhost/jitalent-tms-web2-1295/' : 'http://192.168.10.25/',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache'
         ],
         'settings' => [
-            'class' => 'app\components\Settings'
+            'class' => 'app\base\Settings'
         ],
         'formatter' => [
             'class' => 'app\components\formatter\TFormatter',
@@ -79,4 +77,5 @@ $config['modules']['installer'] = [
         DB_BACKUP_FILE_PATH . '/install.sql'
     ]
 ];
+
 return $config;

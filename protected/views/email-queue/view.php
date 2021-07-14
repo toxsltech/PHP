@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = (string) $model;
 		<div class="card-body">
          <?php
 
-        echo \app\components\TDetailView::widget([
+echo \app\components\TDetailView::widget([
             'id' => 'email-queue-detail-view',
             'model' => $model,
             'options' => [
@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = (string) $model;
             ],
             'attributes' => [
                 'id',
-                // 'subject',
+            //'subject',
                 'from_email:email',
                 'to_email:email',
-                'date_sent:datetime',
+            'date_sent:datetime',
                 'date_published:datetime',
                 'last_attempt:datetime',
                 'attempts',
@@ -45,36 +45,22 @@ $this->params['breadcrumbs'][] = (string) $model;
                 'message_id'
             ]
         ])?>
-      </div>
-	</div>
-	
          <?php
 
-        echo UserAction::widget([
+echo UserAction::widget([
             'model' => $model,
             'attribute' => 'state_id',
             'states' => $model->getStateOptions()
         ]);
         ?>
+      </div>
+	</div>
 	<div class="card">
 		<div class="card-body">
 
 			<iframe src="<?php echo $model->getUrl('show')?>" width="80%"
-				height="500px"></iframe>
+				height="500px" ></iframe>
 		</div>
 
-	</div>
-	<div class="card">
-		<div class="card-body">
-			<div class="email-queue-panel">
-            <?php
-            $this->context->startPanel();
-            $this->context->addPanel('Emails', 'toEmails', 'EmailQueue', $model);
-            $this->context->addPanel('Files', 'files', 'File', $model);
-            $this->context->addPanel('Feeds', 'feeds', 'Feed', $model /* ,null,true */);
-            $this->context->endPanel();
-            ?>
-         </div>
-		</div>
 	</div>
 </div>

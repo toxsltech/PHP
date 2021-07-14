@@ -184,7 +184,8 @@ class FeedController extends TController
 
     protected function updateMenuItems($model = null)
     {
-        switch (\Yii::$app->controller->action->id) {
+        switch (\Yii::$app->controller->action->id) 
+        {
 
             case 'index':
                 {
@@ -197,14 +198,15 @@ class FeedController extends TController
                         'htmlOptions' => [
                             'data-confirm' => "Are you sure to delete these items?"
                         ],
-                        'visible' => User::isAdmin()
+                        'visible' => false
+                        
                     ];
                 }
                 break;
             default:
             case 'view':
                 {
-                    $this->menu['index'] = [
+                    $this->menu['manage'] = [
                         'label' => '<span class="glyphicon glyphicon-list"></span>',
                         'title' => Yii::t('app', 'Manage'),
                         'url' => [

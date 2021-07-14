@@ -40,9 +40,14 @@
 			</div>
 					<div id="technical" class="container tab-pane fade">
 						<br>
-        <?php
-        echo $model['Technical'];
-        ?>
+<?php
+echo \app\components\TDetailView::widget([
+    'model' => $model['Technical'],
+    'options' => [
+        'class' => 'table table-bordered'
+    ]
+]);
+?>
 			</div>
 				</div>
 			</div>

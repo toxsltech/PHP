@@ -32,7 +32,8 @@ class Setting extends SettingModel
             [
                 [
                     'id',
-                    'state_id'
+                    'state_id',
+                    'created_by_id'
                 ],
                 'integer'
             ],
@@ -41,8 +42,7 @@ class Setting extends SettingModel
                     'key',
                     'title',
                     'value',
-                    'type_id',
-                    'created_by_id'
+                    'type_id'
                 ],
                 'safe'
             ]
@@ -118,6 +118,7 @@ class Setting extends SettingModel
             'type_id',
             $this->type_id
         ]);
+
         return $dataProvider;
     }
 }

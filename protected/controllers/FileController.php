@@ -241,7 +241,7 @@ class FileController extends TController
             default:
             case 'view':
                 {
-                    $this->menu['index'] = [
+                    $this->menu['manage'] = [
                         'label' => '<span class="glyphicon glyphicon-list"></span>',
                         'title' => Yii::t('app', 'Manage'),
                         'url' => [

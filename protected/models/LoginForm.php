@@ -28,6 +28,14 @@ class LoginForm extends Model
 
     public $device_type;
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('app', 'Email Address'),
+            'password' => Yii::t('app', 'Password')
+        ];
+    }
+
     public function asJson()
     {
         $Json = [];
@@ -102,7 +110,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if ($user == null) {
-                $this->addError('username', 'Incorrect email');
+                $this->addError($attribute, 'Incorrect email');
                 return false;
             }
             if (defined('ENABLE_LDAP')) {
@@ -130,14 +138,6 @@ class LoginForm extends Model
         return false;
     }
 
-    public function attributeLabels()
-    {
-        return [
-            'username' => Yii::t('app', 'Email'),
-            'password' => Yii::t('app', 'Password')
-        ];
-    }
-
     /**
      * Finds user by [[username]]
      *
@@ -147,9 +147,6 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
-            // if (IS_ADMIN_ONLY && $this->_user && ! $this->_user->role_id == User::ROLE_ADMIN) {
-            // throw new ForbiddenHttpException('You are not authorised');
-            // }
         }
 
         return $this->_user;

@@ -6,10 +6,10 @@
 
 /* $this->title = Yii::t('app', 'Index'); */
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Users'),
-    'url' => [
-        'index'
-    ]
+	'label' => Yii::t('app', 'Users'),
+	'url' => [
+		'index'
+	]
 ];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Index');
 ;

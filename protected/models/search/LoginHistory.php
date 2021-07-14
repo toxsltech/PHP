@@ -126,6 +126,7 @@ class LoginHistory extends LoginHistoryModel
             'created_on',
             $this->created_on
         ]);
+
         return $dataProvider;
     }
 }

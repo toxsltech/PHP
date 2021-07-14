@@ -7,6 +7,7 @@ require (VENDOR_PATH . 'autoload.php');
 require (VENDOR_PATH . 'yiisoft/yii2/Yii.php');
 
 $application = new yii\console\Application ( $config );
+
 try {
 	$application->run();
 } catch ( \Exception $ex ) {

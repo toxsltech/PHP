@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 $fieldOptions1 = [
     'options' => [
-        'class' => 'form-group has-feedback custom-form-group'
+        'class' => 'form-group has-feedback'
     ],
 
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
@@ -19,7 +19,7 @@ $fieldOptions1 = [
 
 $fieldOptions2 = [
     'options' => [
-        'class' => 'form-group has-feedback custom-form-group'
+        'class' => 'form-group has-feedback'
     ],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
 ];
@@ -38,61 +38,84 @@ if (Yii::$app->session->hasFlash('success')) :
 <?php endif;
 
 ?>
-<div class="login-wrapper">
-<section class="overlay-itembox">
-    <div class="py-5 form-inner-wrapper">
-	<div class="container-fluid contact-form-section">
-		<div class=" row ">
-			<div class="col-md-7 col-lg-5 mx-auto ">
-				<div class="text-center">
-				<a class="text-white d-inline-block" href="<?= Url::home();?>">
-					<h3 class="mb-0 logo-title mb-4"><?=Yii::$app->name?></h3>
-				</a>
-				</div>
-				<div class="contact-form-bg login-box  bg-white">
-                    <div class="form-outer padd-lt">
-                        <h3 id="profile-name" class="title text-center">Login</h3>
-                    </div>
 
-             <?php
-
+<div class="login-main">
+  <div class="container-fluid p-lg-0">
+    <div class="row p-lg-0">
+      <div class="col-lg-4 p-0">
+        <div class="left-bar">
+          <h2 class="section-hd text-white mb-30">Welcome Back !</h2>
+          <p>Healthy lifestyle begins with you and ends with TRACOL. Get started on your journey to for good . It’s TIME to start ?</p>
+        </div>
+      </div>
+      <div class="col-lg-8 light-bg pl-lg-0">
+        <div class="right-bar">
+          <div class="d-flex align-items-center mb-50 sign-top">
+            <h4>Sign In</h4>
+          </div>
+          <div class="extra-login">
+            <div class="login-social row m-0">
+              <div class="col-md-6 p-0 pr-md-3">
+                <a class="fb-login" href="<?=Url::toRoute(['social/user/auth?authclient=facebook'])?>"><i class="fab fa-facebook-f"></i>Sign up using Facebook</a>
+              </div>
+              <div class="col-md-6 p-0">
+                <a class="ggl-login" href="<?=Url::toRoute(['social/user/auth?authclient=google'])?>"><i class="fab fa-google"></i>Sign up using Google</a>
+              </div>
+            </div>
+            <span>OR</span>
+          </div>
+          <div class="form-main">
+              <?php
             $form = TActiveForm::begin([
-                'id' => 'login-form',
-                'enableAjaxValidation' => false,
-                'enableClientValidation' => false,
+                'id' => 'loggin-form',
                 'options' => [
-                    'class' => 'form-signin'
+                    'class' => 'sign-in-form row'
                 ]
             ]);
             ?>
-
-                <span id="reauth-email" class="reauth-email"></span>
-                
-                     <?= $form->field ( $model, 'username', $fieldOptions1 )->label ( false )->textInput ( [ 'placeholder' => $model->getAttributeLabel ( 'email' ) ] )?>
-            <?= $form->field ( $model, 'password', $fieldOptions2 )->label ( false )->passwordInput ( [ 'placeholder' => $model->getAttributeLabel ( 'password' ) ] )?>
-           <div class="row">
-						<div class="col-md-6">
-							<div id="remember" class="checkbox">
-                  <?php echo $form->field($model, 'rememberMe')->checkbox();?>
+                <div class="col-md-12 mb-2">                
+                 <?= $form->field ( $model, 'username', $fieldOptions1 )->label ( true )->textInput ( [ 'placeholder' => $model->getAttributeLabel ( 'email' )] )?>
+              </div>
+              <div class="col-md-12 mb-2">
+                <div class="field-holder">
+                  <i onclick="show('loginform-password')" class="fa fa-eye-slash" id="fa-eye"></i>
+                  <?= $form->field ( $model, 'password', $fieldOptions2 )->label ( true )->passwordInput ( [ 'placeholder' => $model->getAttributeLabel ( 'password' )] )?>
+                </div>
+              </div>
+              <div class="col-md-12">
+                 <?=Html::submitButton ( 'Sign In', [ 'class' => 'btn btn-primary mb-80','id' => 'login','name' => 'loggin-button' ] )?>
+                 <a class="btn btn-primary ml-3 mb-80" href="<?=Url::toRoute(['user/recover'])?>"><span>Forgot Password</span></a>
+              </div>
+              <?php TActiveForm::end()?>
+            <div class="text-center sign-form-footer">
+              <p>Don't have an account, <a href="<?= Url::toRoute(['user/signup']) ?>"><u>Click here to Sign up</u></a></p>
             </div>
-						</div>
-						<div class="col-md-6">
-							<a class="forgot-password float-none float-md-right"
-								href="<?php echo Url::toRoute(['user/recover'])?>">Forgot
-								Password? </a>
-						</div>
-					</div>
-                <?=Html::submitButton ( 'Login', [ 'class' => 'btn common-btn btn-block btn-signin mt-4 mt-md-0','id' => 'login','name' => 'login-button' ] )?>
-                            <h4 class="text-center dont-text"></h4>
-    
-            <?php TActiveForm::end()?>
+          </div>
         </div>
-			</div>
-		</div>
-		<!-- /card-container -->
-	</div>
-	<!-- /container -->
+      </div>
+    </div>
+  </div>
 </div>
-</section>
 
-</div>
+<script type="text/javascript">
+function show(a) {
+  var x=document.getElementById(a);
+  var c=x.nextElementSibling
+  if (x.getAttribute('type') == "password") {
+ 
+ 	$("#fa-eye").removeClass("fas fa-eye-slash");
+  $("#fa-eye").addClass("fas fa-eye");
+  
+  
+  x.removeAttribute("type");
+    x.setAttribute("type","text");
+  } else {
+  x.removeAttribute("type");
+    x.setAttribute('type','password');
+ 	$("#fa-eye").removeClass("fas fa-eye");
+ $("#fa-eye").addClass("fas fa-eye-slash");
+ 
+  
+  }
+}
+</script>

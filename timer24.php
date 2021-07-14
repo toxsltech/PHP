@@ -16,7 +16,7 @@ function dlog($str)
 function cmd($application, $cmd)
 {
     try {
-       $application->runAction($cmd);
+        $application->runAction($cmd);
     } catch (\Exception $ex) {
         dlog($ex->getMessage());
         dlog($ex->getTraceAsString());

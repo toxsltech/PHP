@@ -34,18 +34,18 @@ class DashboardController extends TController
                         ],
                         'allow' => true,
                         'matchCallback' => function () {
-                            return User::isAdmin();
+                        return User::isAdmin() || User::isSubAdmin();
                         }
-                    ]
+                    ],
                 ]
             ]
         ];
     }
 
-    
     public function actionIndex()
     {
         $this->updateMenuItems();
+
         return $this->render('index');
     }
 }

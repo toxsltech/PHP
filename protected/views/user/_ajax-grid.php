@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
 ?>
 <?php Pjax::begin(["enablePushState"=>false,"enableReplaceState"=>false,'id' => 'user-pjax-grid']); ?>
     <?php
-
+    
     echo TGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -19,6 +19,8 @@ use yii\widgets\Pjax;
             'class' => 'table table-bordered'
         ],
         'columns' => [
+            // ['class' => 'yii\grid\SerialColumn','header'=>'<a>S.No.<a/>'],
+            
             'id',
             'full_name',
             'email:email',

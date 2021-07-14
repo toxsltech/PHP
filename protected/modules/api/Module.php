@@ -5,8 +5,8 @@
  */
 namespace app\modules\api;
 
-use app\components\TModule;
 use app\modules\api\models\AccessToken;
+use app\components\TModule;
 
 /**
  * Api module definition class
@@ -27,9 +27,8 @@ class Module extends TModule
     public function init()
     {
         parent::init();
-        $this->controllerMap = [];
     }
-
+    
     public static function getRules()
     {
         return [
@@ -43,6 +42,7 @@ class Module extends TModule
             ]
         ];
     }
+    
 
     public static function dbFile()
     {

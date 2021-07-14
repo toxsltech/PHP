@@ -15,7 +15,8 @@ namespace app\base;
 use app\models\User;
 use Yii;
 use yii\web\Controller;
-use app\components\EmailVerification;
+use app\models\UserDetail;
+use yii\helpers\Url;
 
 abstract class TBaseController extends Controller
 {
@@ -59,16 +60,29 @@ abstract class TBaseController extends Controller
 
     public function beforeAction($action)
     {
-        if (! parent::beforeAction($action)) {
-            return false;
+        // $this->enableCsrfValidation = false;
+        if (! User::isAdmin() && ! User::isSubAdmin()) {
+            if (! empty(\Yii::$app->user->identity)) {
+                $id = \Yii::$app->user->identity->id;
+                $getUserDetails = UserDetail::findOne([
+                    'created_by_id' => $id
+                ]);
+                if (empty($getUserDetails)) {
+                    if ($action->id != 'personal-detail') {
+                        return $this->redirect(Url::to([
+                            'user/personal-detail'
+                        ]));
+                    }
+                }
+            }
         }
-        if (! Yii::$app->user->isGuest && ! User::isAdmin()) {
-            EmailVerification::checkIfVerified();
-        }
-        if (! \Yii::$app->user->isGuest) {
+        if (User::isAdmin() || User::isSubAdmin()) {
             $this->layout = 'main';
+        } else {
+            $this->layout = 'guest-main';
         }
-        return true;
+
+        return parent::beforeAction($action);
     }
 
     public static function addmenu($label, $link, $icon, $visible = null, $list = null)
@@ -96,40 +110,43 @@ abstract class TBaseController extends Controller
     public function renderNav()
     {
         $nav_left = [
-
-            self::addMenu(Yii::t('app', 'Dashboard'), '//', 'tachometer', (! User::isGuest())),
-
-            self::addMenu(Yii::t('app', 'Manage Users'), '#', 'user', User::isAdmin(), [
-                self::addMenu(Yii::t('app', 'Customers'), '//user/customers', 'user', User::isAdmin()),
-                self::addMenu(Yii::t('app', 'Providers'), '//user/providers', 'user', User::isAdmin()),
-                self::addMenu(Yii::t('app', 'Business'), '//user/business', 'user', User::isAdmin())
-            ]),
-
-            'Manage' => self::addMenu(Yii::t('app', 'Manage'), '#', 'tasks', User::isAdmin(), [
-                self::addMenu(Yii::t('app', 'Users'), '//user', 'user', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Domain'), '//domain', 'server', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Emoji'), '//emoji', 'smile', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Language'), '//language', 'language', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Activity'), '//activity', 'trello', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Target Area'), '//target-area', 'bullseye', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Target Trades'), '//target-trade', 'tasks', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Portfolio'), '//portfolio-detail', 'briefcase', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Opinions'), '//opinion', 'user', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Comment Reason'), '//comment/reason/index', 'comment', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'Network'), '//network', 'network-wired', (User::isAdmin())),
-                self::addMenu(Yii::t('app', 'News'), '//news', 'newspaper', (User::isAdmin())),
+            self::addMenu(Yii::t('app', 'Dashboard'), '//dashboard/index', 'home', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Habbits'), '//habbit/index/', 'tasks', User::isAdmin()),
+            'Manage' => self::addMenu(Yii::t('app', 'Manage'), '#', 'tasks', User::isManager(), [
+                self::addMenu(Yii::t('app', 'Users'), '//user', 'user', (User::isManager())),
                 self::addMenu(Yii::t('app', 'Feeds'), '//feed/index/', 'tasks', User::isAdmin()),
                 self::addMenu(Yii::t('app', 'Files'), '//file/index/', 'tasks', User::isAdmin()),
-                self::addMenu(Yii::t('app', 'System Info'), '//site/info/', 'tasks', User::isAdmin()),
-                self::addMenu(Yii::t('app', 'Logger'), '//logger/', 'key', User::isAdmin()),
+                self::addMenu(Yii::t('app', 'Home Content'), '//home-content/index/', 'tasks', User::isAdmin()),
+                self::addMenu(Yii::t('app', 'Logger'), '//logger/log', 'key', User::isAdmin()),
                 self::addMenu(Yii::t('app', 'Login History'), '//login-history/', 'history', User::isAdmin()),
                 self::addMenu(Yii::t('app', 'Backup'), '//backup/', 'download', User::isAdmin()),
-                self::addMenu(Yii::t('app', 'Emails In Queue'), '//email-queue/', 'retweet', (! User::isGuest()))
-            ])
+                self::addMenu(Yii::t('app', 'Emails In Queue'), '//email-queue/', 'retweet', (! User::isGuest())),
+                self::addMenu(Yii::t('app', 'Social Providers'), '//social/provider', 'retweet', true)
+            ]),
+            self::addMenu(Yii::t('app', 'Notifications'), '//notification/admin/notification/index/', 'envelope', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Packages'), '//package/index/', 'square-o', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Category'), '//category/index/', 'list-alt', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Products'), '//product/index/', 'product-hunt', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Setting'), '//setting/index/', 'gear', User::isAdmin() || User::isSubAdmin()),
+
+            self::addMenu(Yii::t('app', 'Subscription Plans'), '#', 'credit-card', User::isAdmin() || User::isSubAdmin(), [
+                self::addMenu(Yii::t('app', 'Subscription Plans'), '//subscription-plan/index/', 'credit-card', User::isAdmin() || User::isSubAdmin()),
+                self::addMenu(Yii::t('app', 'Subscription Billings'), '//subscription-billing/index/', 'money', User::isAdmin())
+            ]),
+            self::addMenu(Yii::t('app', 'Videos'), '//product-video/index/', 'play', User::isAdmin() || User::isSubAdmin()),
+            self::addMenu(Yii::t('app', 'Charity'), '#', 'tint', User::isManager() || User::isSubAdmin(), [
+                self::addMenu(Yii::t('app', 'Charity'), '//charity/index/', 'tint', User::isAdmin() || User::isSubAdmin()),
+                self::addMenu(Yii::t('app', 'Charity Details'), '//charity-detail/index/', 'info', User::isAdmin())
+            ]),
+            self::addMenu(Yii::t('app', 'Payments'), '//payment-transaction/index/', 'money', User::isAdmin())
         ];
+
         if (yii::$app->hasModule('page'))
             $nav_left['page'] = \app\modules\page\Module::subNav();
-
+        if (yii::$app->hasModule('faq'))
+            $nav_left['faq'] = \app\modules\faq\Module::subNav();
+        if (yii::$app->hasModule('order'))
+            $nav_left['order'] = \app\modules\order\Module::subNav();
         $this->nav_left = $nav_left;
         return $this->nav_left;
     }

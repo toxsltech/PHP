@@ -134,6 +134,12 @@ class AccessToken extends \app\components\TActiveRecord
             ],
             [
                 [
+                    'device_name'
+                ],
+                'app\components\validators\TNameValidator'
+            ],
+            [
+                [
                     'type_id'
                 ],
                 'in',
@@ -287,13 +293,11 @@ class AccessToken extends \app\components\TActiveRecord
 
     public static function add($model, $access_token)
     {
-        $user = User::findOne([
-            'activation_key' => $access_token
-        ]);
-        self::deleteOldAppData($user->id);
+        self::deleteOldAppData(Yii::$app->user->identity->id);
+
         $deviceDetail = new self();
         $deviceDetail->access_token = $access_token;
-        $deviceDetail->created_by_id = $user->id;
+        $deviceDetail->created_by_id = Yii::$app->user->identity->id;
         $deviceDetail->device_token = $model->device_token;
         $deviceDetail->device_type = $model->device_type;
         $deviceDetail->device_name = isset($model->device_name) ? $model->device_name : 'NONE';

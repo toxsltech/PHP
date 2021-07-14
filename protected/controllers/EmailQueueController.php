@@ -7,7 +7,6 @@
 namespace app\controllers;
 
 use app\components\TController;
-use app\models\EmailQueue;
 use app\models\User;
 use app\models\search\EmailQueue as EmailQueueSearch;
 use Yii;
@@ -15,6 +14,7 @@ use yii\filters\AccessControl;
 use yii\filters\AccessRule;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use app\models\EmailQueue;
 
 /**
  * EmailQueueController implements the CRUD actions for EmailQueue model.
@@ -50,10 +50,9 @@ class EmailQueueController extends TController
                         'actions' => [
                             'index',
                             'view',
+
                             'ajax',
-                            'send-now',
-                            'show',
-                            'image'
+                            'send-now'
                         ],
                         'allow' => true,
                         'matchCallback' => function () {
@@ -62,8 +61,21 @@ class EmailQueueController extends TController
                     ],
                     [
                         'actions' => [
+                            'ajax',
+                            'view',
+                            'show',
+                            'image'
+                        ],
+                        'allow' => true,
+                        'matchCallback' => function () {
+                            return User::isAdmin() || User::isUser() || User::isManager();
+                        }
+                    ],
+                    [
+                        'actions' => [
                             'unsubscribe',
                             'subscribe',
+                            'show',
                             'image'
                         ],
                         'allow' => true,
@@ -101,6 +113,7 @@ class EmailQueueController extends TController
         }
 
         $response['status'] = 'OK';
+
         return $response;
     }
 
@@ -183,24 +196,7 @@ class EmailQueueController extends TController
 
     public function actionImage($id)
     {
-        $model = $this->findModel($id, false);
-        $campaign = CampaignEmail::find()->where([
-            'email_queue_id' => $model->id
-        ])->one();
-        if ($campaign) {
-            $campaign->state_id = CampaignEmail::STATE_SEEN;
-            $campaign->save();
-
-            header("Content-Type: image/png");
-            $image = imagecreate(1, 1);
-            /*
-             * $background_color = imagecolorallocate($image, 0, 0, 0);
-             * $text_color = imagecolorallocate($image, 0xFF, 0xFF, 0xFF);
-             * imagestring($image, 5, 5, 5, "TMS", $text_color);
-             */
-            @imagepng($image);
-            imagedestroy($image);
-        }
+        
     }
 
     public function actionShow($id)
@@ -214,12 +210,7 @@ class EmailQueueController extends TController
 
     public function actionUnsubscribe($id)
     {
-        $this->layout = 'guest-out';
-        $model = $this->findModel($id, false);
-        Unsubscribe::add($model->to_email);
-        return $this->render('unsubscribe-view', [
-            'model' => $model
-        ]);
+        return '#';
     }
 
     public function actionSubscribe($id)
@@ -259,7 +250,7 @@ class EmailQueueController extends TController
 
             case 'index':
                 {
-                    $this->menu['clear'] = [
+                    $this->menu['clear'] = array(
                         'label' => '<span class="glyphicon glyphicon-remove"></span>',
                         'title' => Yii::t('app', 'Clear'),
                         'url' => [
@@ -269,31 +260,31 @@ class EmailQueueController extends TController
                             'data-confirm' => "Are you sure to delete all items?"
                         ],
                         'visible' => User::isAdmin()
-                    ];
+                    );
                 }
                 break;
             default:
             case 'view':
                 {
-                    $this->menu['index'] = [
+                    $this->menu['manage'] = array(
                         'label' => '<span class="glyphicon glyphicon-list"></span>',
                         'title' => Yii::t('app', 'Manage'),
                         'url' => [
                             'index'
                         ],
-                        'visible' => User::isAdmin()
-                    ];
+                        'visible' => false
+                    );
                     if ($model != null) {
-                        $this->menu['send-now'] = [
-                            'label' => '<span class="glyphicon glyphicon-cog"></span>',
+                        $this->menu['send-now'] = array(
+                            'label' => '<span class="glyphicon glyphicon-envelope"></span>',
                             'title' => Yii::t('app', 'Send Now'),
                             'url' => [
                                 'send-now',
                                 'id' => $model->id
                             ],
-                            'visible' => User::isAdmin()
-                        ];
-                        $this->menu['delete'] = [
+                            'visible' => false
+                        );
+                        $this->menu['delete'] = array(
                             'label' => '<span class="glyphicon glyphicon-trash"></span>',
                             'title' => Yii::t('app', 'Delete'),
                             'url' => [
@@ -301,7 +292,7 @@ class EmailQueueController extends TController
                                 'id' => $model->id
                             ],
                             'visible' => User::isAdmin()
-                        ];
+                        );
                     }
                 }
         }

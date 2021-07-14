@@ -21,8 +21,13 @@ include ('header.php')?>
 <tr>
 	<td style="padding: 20px 30px 30px 30px">
 		<h3 style="font-size: 20px; margin: 0px;">Hi  <?php echo  Html::encode($user->full_name) ?>,</h3>
-		<p>Thank you for reaching us , we have received your request and our
-			representative will get back to you on following details .</p>
+		<p>I’m Billy, the founder of TRACOL ASIA SDN BHD and I’d like to
+			personally thank you for signing up to our service. We established
+			TRACOL in order to realize our dream to be more healthy in a much
+			safer way . I’d love to hear what you think of our product and
+			services and if there is anything we can improve. If you have any
+			questions, please feel free to send email to hello@tracolasia.com .
+			I’m always happy to help!<br> Billy .</p>
 		<table style="width: 100%; border-collapse: collapse;" cellpadding="6">
 			<tr>
 				<td width="50%" style="border-bottom: 1px solid #b5cabf"><b>User

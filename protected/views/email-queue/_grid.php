@@ -21,6 +21,9 @@ use yii\widgets\Pjax;
             'class' => 'table table-bordered'
         ],
         'columns' => [
+            // ['class' => 'yii\grid\SerialColumn','header'=>'<a>S.No.<a/>'],
+     
+
             'id',
             'from_email:email',
             'to_email:email',
@@ -52,13 +55,12 @@ use yii\widgets\Pjax;
             ],
             [
                 'class' => 'app\components\TActionColumn',
-                'template' => '{view} {delete}',
-                'header' => '<a>Actions</a>'
+                'header' => '<a>Actions</a>',
+                'template' => '{view} {delete}'
             ]
         ]
     ]);
     ?>
-    
 <?php Pjax::end(); ?>
 
 

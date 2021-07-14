@@ -1,20 +1,8 @@
 <?php
 /**
- *@copyright : ToXSL Technologies Pvt. Ltd. < www.toxsl.com >
- *@author    : Shiv Charan Panjeta < shiv@toxsl.com >
- *
- * All Rights Reserved.
- * Proprietary and confidential :  All information contained herein is, and remains
- * the property of ToXSL Technologies Pvt. Ltd. and its partners.
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- *
+ *@copyright : OZVID Technologies Pvt. Ltd. < www.ozvid.com >
+ *@author	 : Shiv Charan Panjeta < shiv@ozvid.com >
  */
-namespace app\models;
-
-use Yii;
-use app\models\Feed;
-use yii\helpers\ArrayHelper;
-
 /**
  * This is the model class for table "tbl_setting".
  *
@@ -26,6 +14,13 @@ use yii\helpers\ArrayHelper;
  * @property integer $state_id
  * @property integer $created_by_id
  */
+namespace app\models;
+
+use Yii;
+use yii\helpers\Inflector;
+use yii\helpers\Json;
+use yii\base\InvalidConfigException;
+
 class Setting extends \app\components\TActiveRecord
 {
 
@@ -34,12 +29,124 @@ class Setting extends \app\components\TActiveRecord
         return (string) $this->title;
     }
 
+    public $keyName;
+
+    public $keyType;
+
+    public $keyValue;
+
+    public $keyRequired;
+
+    const KEY_TYPE_STRING = 0;
+
+    const KEY_TYPE_BOOL = 1;
+
+    const KEY_TYPE_INT = 2;
+
+    const KEY_TYPE_EMAIL = 3;
+
+    const KEY_TYPE_TIME = 4;
+
+    const KEY_TYPE_DATE = 5;
+
+    const KEY_TYPE_TEXT = 6;
+
+    public static function getDefaultConfig()
+    {
+        return [
+            'appConfig' => [
+                'title' => Yii::t('app', 'App Configration'),
+                'value' => [
+                    'companyUrl' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => 'https://www.ozvid.com',
+                        'required' => true
+                    ],
+                    'company' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => 'OZVID Technologies',
+                        'required' => true
+                    ],
+                    'companyEmail' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => 'admin@OZVID.in',
+                        'required' => true
+                    ],
+                    'companyContactEmail' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => 'admin@OZVID.in',
+                        'required' => false
+                    ],
+                    'companyContactNo' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '9569127788',
+                        'required' => false
+                    ],
+                    'companyAddress' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => 'C-127, 2nd floor, Phase 8, Industrial Area, Sector 72, Mohali, Punjab',
+                        'required' => false
+                    ],
+                    'loginCount' => [
+                        'type' => self::KEY_TYPE_INT,
+                        'value' => 2,
+                        'required' => false
+                    ]
+                ]
+            ],
+            'smtp' => [
+                'title' => Yii::t('app', 'SMTP Configration'),
+                'value' => [
+                    'host' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '',
+                        'required' => true
+                    ],
+                    'username' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '',
+                        'required' => true
+                    ],
+                    'password' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '',
+                        'required' => true
+                    ],
+                    'port' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '',
+                        'required' => true
+                    ],
+                    'encryption' => [
+                        'type' => self::KEY_TYPE_STRING,
+                        'value' => '',
+                        'required' => false
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public static function getDefault($key)
+    {
+        $setting = self::getDefaultConfig();
+        if (isset($setting[$key])) {
+            return $setting[$key];
+        } else {
+            throw new InvalidConfigException("$key invalid Configartion.");
+        }
+    }
+
     public static function getTypeOptions()
     {
         return [
-            "TYPE1",
-            "TYPE2",
-            "TYPE3"
+            self::KEY_TYPE_STRING => 'String',
+            self::KEY_TYPE_BOOL => 'Boolean',
+            self::KEY_TYPE_INT => 'Integer',
+            self::KEY_TYPE_EMAIL => 'Email',
+            self::KEY_TYPE_TIME => 'Time',
+            self::KEY_TYPE_DATE => 'Date',
+            self::KEY_TYPE_TEXT => 'Text'
         ];
     }
 
@@ -60,7 +167,7 @@ class Setting extends \app\components\TActiveRecord
         return [
             self::STATE_INACTIVE => "New",
             self::STATE_ACTIVE => "Active",
-            self::STATE_DELETED => "Deleted"
+            self::STATE_DELETED => "Archived"
         ];
     }
 
@@ -73,30 +180,36 @@ class Setting extends \app\components\TActiveRecord
     public function getStateBadge()
     {
         $list = [
-            self::STATE_INACTIVE => "secondary",
+            self::STATE_INACTIVE => "primary",
             self::STATE_ACTIVE => "success",
             self::STATE_DELETED => "danger"
         ];
         return isset($list[$this->state_id]) ? \yii\helpers\Html::tag('span', $this->getState(), [
-            'class' => 'badge badge-' . $list[$this->state_id]
+            'class' => 'label label-' . $list[$this->state_id]
         ]) : 'Not Defined';
     }
 
-    public static function getActionOptions()
+    public static function getCreatedByOptions()
     {
         return [
-            self::STATE_INACTIVE => "Deactivate",
-            self::STATE_ACTIVE => "Activate",
-            self::STATE_DELETED => "Delete"
+            "TYPE1",
+            "TYPE2",
+            "TYPE3"
         ];
+        // return ArrayHelper::Map ( CreatedBy::findActive ()->all (), 'id', 'title' );
+    }
+
+    public function getCreatedBy()
+    {
+        $list = self::getCreatedByOptions();
+        return isset($list[$this->created_by_id]) ? $list[$this->created_by_id] : 'Not Defined';
     }
 
     public function beforeValidate()
     {
         if ($this->isNewRecord) {
-            if (empty($this->created_by_id)) {
-                $this->created_by_id = self::getCurrentUser();
-            }
+            if (! isset($this->created_by_id))
+                $this->created_by_id = Yii::$app->user->id;
         } else {}
         return parent::beforeValidate();
     }
@@ -120,8 +233,7 @@ class Setting extends \app\components\TActiveRecord
             [
                 [
                     'key',
-                    'title',
-                    'created_by_id'
+                    'title'
                 ],
                 'required'
             ],
@@ -134,6 +246,7 @@ class Setting extends \app\components\TActiveRecord
             [
                 [
                     'state_id',
+                    'type_id',
                     'created_by_id'
                 ],
                 'integer'
@@ -141,8 +254,7 @@ class Setting extends \app\components\TActiveRecord
             [
                 [
                     'key',
-                    'title',
-                    'type_id'
+                    'title'
                 ],
                 'string',
                 'max' => 255
@@ -150,10 +262,19 @@ class Setting extends \app\components\TActiveRecord
             [
                 [
                     'key',
-                    'title',
-                    'type_id'
+                    'title'
                 ],
                 'trim'
+            ],
+            [
+                [
+                    'value',
+                    'keyName',
+                    'keyType',
+                    'keyRequired',
+                    'keyValue'
+                ],
+                'safe'
             ],
             [
                 [
@@ -192,12 +313,6 @@ class Setting extends \app\components\TActiveRecord
     public static function getHasManyRelations()
     {
         $relations = [];
-
-        $relations['feeds'] = [
-            'feeds',
-            'Feed',
-            'model_id'
-        ];
         return $relations;
     }
 
@@ -209,21 +324,7 @@ class Setting extends \app\components\TActiveRecord
 
     public function beforeDelete()
     {
-        if (! parent::beforeDelete()) {
-            return false;
-        }
-        // TODO : start here
-        return true;
-    }
-
-    public function beforeSave($insert)
-    {
-        if (! parent::beforeSave($insert)) {
-            return false;
-        }
-        // TODO : start here
-
-        return true;
+        return parent::beforeDelete();
     }
 
     public function asJson($with_relations = false)
@@ -240,41 +341,148 @@ class Setting extends \app\components\TActiveRecord
         return $json;
     }
 
-    public static function addTestData($count = 1)
+    public static function generateField($key, $field)
     {
-        $faker = \Faker\Factory::create();
-        $states = array_keys(self::getStateOptions());
-        for ($i = 0; $i < $count; $i ++) {
-            $model = new self();
+        $html = "";
+        if (is_array($field)) {
+            $required = (isset($field['required']) && ($field['required'] != false)) ? "required" : '';
+            $value = isset($field['value']) ? $field['value'] : '';
+            $typeRequired = (! empty($required)) ? true : false;
+            if (isset($field['type'])) {
+                switch ($field['type']) {
+                    case self::KEY_TYPE_BOOL:
+                        $checked = ($value) ? "checked = checked" : '';
+                        $html .= "<input type='checkbox' $checked " . $required . " value='" . $value . "' class='form-control' name='Setting[keyValue][" . $key . "][value]'>";
 
-            $model->key = $faker->text(10);
-            $model->title = $faker->text(10);
-            $model->value = $faker->text;
-            $model->type_id = 0;
-            $model->state_id = $states[rand(0, count($states))];
-            $model->save();
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_BOOL . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+                    case self::KEY_TYPE_STRING:
+                        $html .= "<input type='text' " . $required . " value='" . $value . "' class='form-control' name='Setting[keyValue][" . $key . "][value]' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_STRING . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+                    case self::KEY_TYPE_INT:
+                        $html .= "<input type='number' " . $required . " value='" . $value . "' class='form-control' name='Setting[keyValue][" . $key . "][value]' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_INT . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+                    case self::KEY_TYPE_EMAIL:
+                        $html .= "<input type='email' " . $required . " value='" . $value . "' name='Setting[keyValue][" . $key . "][value]' class='form-control' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_EMAIL . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+
+                    case self::KEY_TYPE_DATE:
+
+                        $html .= "<input type='date' " . $required . " value='" . $value . "' name='Setting[keyValue][" . $key . "][value]' class='form-control' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_DATE . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+
+                    case self::KEY_TYPE_TIME:
+
+                        $html .= "<input type='time' " . $required . " value='" . $value . "' name='Setting[keyValue][" . $key . "][value]' class='form-control' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_TIME . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+
+                    case self::KEY_TYPE_TEXT:
+
+                        $html .= "<textarea rows='4' cols='50' {$required} name='Setting[keyValue][{$key}][value]' class='form-control'>{$value}</textarea>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_TEXT . "' name='Setting[keyValue][{$key}][type]'>";
+                        $html .= "<input type='hidden' value='{$typeRequired}' name='Setting[keyValue][{$key}][required]'>";
+
+                        break;
+
+                    default:
+                        $html .= "<input type='text' " . $required . " value='" . $value . "' name='Setting[keyValue][" . $key . "][value]' class='form-control' placeholder='" . Inflector::titleize($key) . "'>";
+
+                        $html .= "<input type='hidden' value='" . self::KEY_TYPE_STRING . "' name='Setting[keyValue][" . $key . "][type]'>";
+                        $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+
+                        break;
+                }
+            } else {
+                $html .= "<input type='text' " . $required . " value='" . $value . "' name='Setting[keyValue][" . $key . "][value]' class='form-control' placeholder='" . Inflector::titleize($key) . "'>";
+
+                $html .= "<input type='hidden' value='" . self::KEY_TYPE_STRING . "' name='Setting[keyValue][" . $key . "][type]'>";
+                $html .= "<input type='hidden' value='" . $typeRequired . "' name='Setting[keyValue][" . $key . "][required]'>";
+            }
+        } else {
+            $html .= "<input type='text' class='form-control' name='Setting[keyValue][" . $field . "][value]' placeholder='" . Inflector::titleize($field) . "'>";
+
+            $html .= "<input type='hidden' value='" . self::KEY_TYPE_STRING . "' name='Setting[keyValue][" . $key . "][type]'>";
+            $html .= "<input type='hidden' value='" . false . "' name='Setting[keyValue][" . $key . "][required]'>";
+        }
+        return $html;
+    }
+
+    public static function setDefaultConfig()
+    {
+        $data = self::getDefaultConfig();
+        foreach ($data as $key => $value) {
+            $model = self::findOne([
+                'key' => $key
+            ]);
+            if (empty($model)) {
+                $model = new self();
+                $model->scenario = "default";
+                $model->key = $key;
+                $model->title = $value['title'];
+                $model->value = Json::encode($value['value']);
+            } else {
+                $save = json_decode($model->value, true);
+                $static = $value['value'];
+                foreach ($save as $key => $value) {
+                    if (! array_key_exists($key, $static)) {
+                        unset($save[$key]);
+                    }
+                }
+                foreach ($static as $key => $value) {
+                    if (! array_key_exists($key, $save)) {
+                        $save[$key] = $value;
+                    }
+                }
+                $model->value = Json::encode($save);
+            }
+
+            if (! $model->save()) {
+                \Yii::$app->session->setFlash('error', "Error! " . $model->errors);
+            }
         }
     }
 
-    public static function addData($data)
+    public static function checkKeyType($type, $value)
     {
-        $faker = \Faker\Factory::create();
-        if (self::find()->count() != 0)
-            return;
-        foreach ($data as $item) {
-            $model = new self();
-
-            $model->key = isset($item['key']) ? $item['key'] : $faker->text(10);
-
-            $model->title = isset($item['title']) ? $item['title'] : $faker->text(10);
-
-            $model->value = isset($item['value']) ? $item['value'] : $faker->text;
-
-            $model->type_id = isset($item['type_id']) ? $item['type_id'] : 0;
-            
-            $model->state_id = self::STATE_ACTIVE;
-            
-            $model->save();
+        switch ($type) {
+            case self::KEY_TYPE_BOOL:
+                if (! empty($value)) {
+                    $val = \yii\helpers\Html::tag('span', 'ON', [
+                        'class' => 'label label-success'
+                    ]);
+                } else {
+                    $val = \yii\helpers\Html::tag('span', 'OFF', [
+                        'class' => 'label label-danger'
+                    ]);
+                }
+                break;
+            default:
+                $val = $value;
+                break;
         }
+        return $val;
     }
 }

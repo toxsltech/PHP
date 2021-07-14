@@ -8,6 +8,10 @@ use yii\helpers\Url;
 use app\models\User;
 use app\models\search\User as UserSearch;
 use miloschuman\highcharts\Highcharts;
+use app\modules\order\models\Order;
+use app\modules\order\models\Item;
+use app\models\Address;
+use app\models\Product;
 
 /**
  *
@@ -31,210 +35,130 @@ $this->params['breadcrumbs'][] = [
                     'url' => Url::toRoute([
                         '/user'
                     ]),
-                    'color' => 'dashboard-itembox',
-                    'data' => User::findActive()->andWhere([
-                        'not in',
-                        'role_id',
-                        [
-                            User::ROLE_ADMIN
-                        ]
-                    ])->count(),
-                    'header' => 'Total Users'
+                    'color' => 'green',
+                    'data' => User::findActive()->where(['role_id'=> User::ROLE_USER])->count(),
+                    'header' => 'Users'
                 ],
                 [
                     'url' => Url::toRoute([
-                        '/user/providers'
+                        '/email-queue'
                     ]),
-                    'color' => 'dashboard-itembox',
-                    'data' => User::findActive()->andWhere([
-                        'role_id' => User::ROLE_PROVIDER
-                    ])->count(),
-                    'header' => 'Total Providers Registered'
+                    'color' => 'bg-warning',
+                    'data' => EmailQueue::findActive(0)->count(),
+                    'header' => 'Pending Emails'
                 ],
                 [
                     'url' => Url::toRoute([
-                        '/user/customers'
+                        '/logger/log'
                     ]),
-                    'color' => 'dashboard-itembox',
-                    'data' => User::findActive()->andWhere([
-                        'role_id' => User::ROLE_CUSTOMER
-                    ])->count(),
-                    'header' => 'Total Customers Registered'
+                    'color' => 'bg-info',
+                    'data' => Log::find()->count(),
+                    'header' => 'Logs'
                 ],
                 [
                     'url' => Url::toRoute([
-                        '/user/business'
+                        '/login-history/index'
                     ]),
-                    'color' => 'dashboard-itembox',
-                    'data' => User::findActive()->andWhere([
-                        'role_id' => User::ROLE_BUSINESS
-                    ])->count(),
-                    'header' => 'Total Business Registered'
-                ]
+                    'color' => 'red',
+                    'data' => LoginHistory::find()->count(),
+                    'header' => 'LoginHistory'
+                ],
+                [
+                    'url' => Url::toRoute([
+                        '/product/index'
+                    ]),
+                    'color' => 'bg-info',
+                    'data' => Product::find()->count(),
+                    'header' => 'Product'
+                ],
+                [
+                    'url' => Url::toRoute([
+                        '/order/order/index'
+                    ]),
+                    'color' => 'green',
+                    'data' => Order::find()->count(),
+                    'header' => 'Order'
+                ],
+                [
+                    'url' => Url::toRoute([
+                        '/order/item/index'
+                    ]),
+                    'color' => 'bg-warning',
+                    'data' => Item::find()->count(),
+                    'header' => 'Placed Order'
+                ],
+                [
+                    'url' => Url::toRoute([
+                        '/address/index'
+                    ]),
+                    'color' => 'bg-info',
+                    'data' => Address::find()->count(),
+                    'header' => 'Address'
+                ],
+                
             ]
         ]);
-        ?>  	
-  	
-  	 <div class="card">
+        ?>
+   
+	
+	<div class="card">
+		<div class="card-heading">
+			<span class="tools pull-right"> </span>
+		</div>
 		<div class="card-body">
-			<div class="row">
-				<div class="col-md-6">
-       
-                <?php
-                $data = UserSearch::daily();
-                echo Highcharts::widget([
-                    'options' => [
-                        'credits' => array(
-                            'enabled' => false
-                        ),
-
-                        'title' => [
-                            'text' => 'Daily Users'
-                        ],
-                        'chart' => [
-                            'type' => 'spline'
-                        ],
-                        'xAxis' => [
-                            'categories' => array_keys($data)
-                        ],
-                        'yAxis' => [
-                            'title' => [
-                                'text' => 'Count'
-                            ]
-                        ],
-                        'series' => [
-                            [
-                                'name' => 'Users',
-                                'data' => array_values($data)
-                            ]
-                        ]
-                    ]
-                ]);
-                ?> 
-            </div>
-				<div class="col-md-6">
-                            <?php
-                            echo Highcharts::widget([
-                                'scripts' => [
-                                    'highcharts-3d',
-                                    'modules/exporting'
-                                ],
-
-                                'options' => [
-                                    'credits' => array(
-                                        'enabled' => false
-                                    ),
-                                    'chart' => [
-                                        'plotBackgroundColor' => null,
-                                        'plotBorderWidth' => null,
-                                        'plotShadow' => false,
-                                        'type' => 'pie'
-                                    ],
-                                    'title' => [
-                                        'text' => 'Users'
-                                    ],
-                                    'tooltip' => [
-                                        'valueSuffix' => ''
-                                    ],
-                                    'accessibility' => [
-                                        'point' => [
-
-                                            'valueSuffix' => '%'
-                                        ]
-                                    ],
-                                    'plotOptions' => [
-                                        'pie' => [
-                                            'allowPointSelect' => true,
-                                            'cursor' => 'pointer',
-                                            'dataLabels' => [
-                                                'enabled' => true
-                                            ],
-                                            'format' => '<b>{point.name}</b>: {point.percentage:.1f} %',
-                                            'showInLegend' => true
-                                        ]
-                                    ],
-
-                                    'htmlOptions' => [
-                                        'style' => 'min-width: 100%; height: 400px; margin: 0 auto'
-                                    ],
-                                    'series' => [
-                                        [
-                                            'name' => 'Rides',
-                                            'colorByPoint' => true,
-
-                                            'data' => [
-                                                [
-                                                    'name' => 'Users',
-                                                    'color' => '#28a745',
-                                                    'y' => (int) User::find()->where([
-                                                        'role_id' => User::ROLE_ADMIN
-                                                    ])->count(),
-                                                    'sliced' => true,
-                                                    'selected' => true
-                                                ],
-
-                                                [
-                                                    'name' => 'Providers',
-                                                    'color' => '#6610f2',
-                                                    'y' => (int) User::find()->where([
-                                                        'role_id' => User::ROLE_PROVIDER
-                                                    ])->count(),
-                                                    'sliced' => true,
-                                                    'selected' => true
-                                                ],
-                                                [
-                                                    'name' => 'Customers',
-                                                    'color' => '#17a2b8',
-                                                    'y' => (int) User::find()->where([
-                                                        'role_id' => User::ROLE_CUSTOMER
-                                                    ])->count(),
-                                                    'sliced' => true,
-                                                    'selected' => true
-                                                ],
-                                                [
-                                                    'name' => 'Business',
-                                                    'color' => '#dc3545',
-                                                    'y' => (int) User::find()->where([
-                                                        'role_id' => User::ROLE_BUSINESS
-                                                    ])->count(),
-                                                    'sliced' => true,
-                                                    'selected' => true
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]);
-                            ?>
-			</div>
 
 
+<?php
+$data = UserSearch::monthly();
+echo Highcharts::widget([
+    'options' => [
+        'credits' => array(
+            'enabled' => false
+        ),
 
+        'title' => [
+            'text' => 'Monthly'
+        ],
+        'chart' => [
+            'type' => 'spline'
+        ],
+        'xAxis' => [
+            'categories' => array_keys($data)
+        ],
+        'yAxis' => [
+            'title' => [
+                'text' => 'Count'
+            ]
+        ],
+        'series' => [
+            [
+                'name' => 'Users',
+                'data' => array_values($data)
+            ]
+        ]
+    ]
+]);
+?>
+	
 
+		</div>
 
-			</div>
+	</div>
+	<?php if(user::isAdmin()){?>
+	<div class="card">
+
+		<div class="card-body">
+			<?php
+			
+			    $searchModel = new UserSearch();
+			    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+			    
+			    echo $this->render('/user/_grid', [
+			        'dataProvider' => $dataProvider,
+			        'searchModel' => $searchModel
+			    ]);
+?>
 		</div>
 	</div>
-	<div class="card">
-		<div class="card-body">
-
-    <?php
-    $searchModel = new UserSearch();
-    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    $dataProvider->query->andWhere([
-        'not in',
-        'u.role_id',
-        [
-            User::ROLE_ADMIN
-        ]
-    ]);
-    echo $this->render('/user/_grid', [
-        'dataProvider' => $dataProvider,
-        'searchModel' => $searchModel
-    ]);
-    ?>
-
-</div>
-	</div>
-
+	<?php }?>
 </div>

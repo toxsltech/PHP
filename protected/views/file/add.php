@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Add');
 	</div>
 
 	<div class="content-section clearfix card">
-         <?= $this->render ( '_form', [ 'model' => $model ] )?></div>
+
+		<?= $this->render ( '_form', [ 'model' => $model ] )?></div>
 </div>
 
 

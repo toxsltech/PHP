@@ -12,17 +12,11 @@ use yii\widgets\Pjax;
 
 ?>
 
-<?php
-if (! empty($menu))
-    echo Html::a($menu['label'], $menu['url'], $menu['htmlOptions']);
-?>
 
 
-
-<?php Pjax::begin(['id'=>'login-history-pjax-ajax-grid','enablePushState'=>false,'enableReplaceState'=>false]); ?>
     <?php
 
-echo TGridView::widget([
+    echo TGridView::widget([
         'id' => 'login-history-ajax-grid-view',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -55,14 +49,15 @@ echo TGridView::widget([
                     return $data->getType();
                 }
             ],
+            'code',
             'created_on:datetime',
 
             [
                 'class' => 'app\components\TActionColumn',
-                'header' => '<a>Actions</a>'
+                'header' => '<a>Actions</a>',
+                'template' => '{view} {delete}'
             ]
         ]
     ]);
     ?>
-<?php Pjax::end(); ?>
 

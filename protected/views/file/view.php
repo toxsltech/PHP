@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = (string) $model;
 
 <div class="wrapper">
 	<div class="card">
-		<div class="file-view">
+        <div class="file-view">
 			<?php echo  \app\components\PageHeader::widget(['model'=>$model]); ?>
 		</div>
 	</div>
@@ -48,6 +48,8 @@ $this->params['breadcrumbs'][] = (string) $model;
         ]
     ])?>
 
+
+<?php  ?>
 
  			<div>
 		<?php

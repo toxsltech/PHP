@@ -21,6 +21,13 @@ use yii\widgets\Pjax;
             'class' => 'table table-bordered'
         ],
         'columns' => [
+            // ['class' => 'yii\grid\SerialColumn','header'=>'<a>S.No.<a/>'],
+            [
+                'name' => 'check',
+                'class' => 'yii\grid\CheckboxColumn',
+                'visible' => User::isAdmin()
+            ],
+
             'id',
             /* [
 			'attribute' => 'user_id',
@@ -46,14 +53,14 @@ use yii\widgets\Pjax;
             ],
             'code',
             'created_on:datetime',
+
             [
                 'class' => 'app\components\TActionColumn',
-                'template' => '{view} {delete}',
-                'header' => '<a>Actions</a>'
+                'header' => '<a>Actions</a>',
+                'template' => '{view} {delete}'
             ]
         ]
     ]);
     ?>
-    
 <?php Pjax::end(); ?>
 

@@ -41,7 +41,10 @@ class LoginHistoryController extends TController
                         'actions' => [
                             'clear',
                             'delete',
-                            'mass'
+                            'mass',
+                            'index',
+                            'view',
+                            'ajax'
                         ],
                         'allow' => true,
                         'matchCallback' => function () {
@@ -55,10 +58,10 @@ class LoginHistoryController extends TController
                             'ajax'
                         ],
                         'allow' => true,
-                        'roles' => [
-                            '@'
+                        'matchCallback' => function () {
+                        return User::isSubAdmin();
+                        }
                         ]
-                    ]
                 ]
             ],
             'verbs' => [
@@ -197,21 +200,21 @@ class LoginHistoryController extends TController
                         'htmlOptions' => [
                             'data-confirm' => "Are you sure to delete these items?"
                         ],
-                        'visible' => User::isAdmin()
+                        'visible' => false
                     ];
                 }
                 break;
             default:
                 {
-                    $this->menu['security/rule/add-history'] = [
+                    $this->menu['rule'] = array(
                         'label' => '<span class=" glyphicon glyphicon-cog"></span>',
                         'title' => Yii::t('app', 'Add Rule'),
                         'url' => [
                             '/security/rule/add-history',
                             'id' => $model->id
                         ],
-                        'visible' => User::isAdmin()
-                    ];
+                        'visible' => false
+                    );
                 }
                 break;
         }

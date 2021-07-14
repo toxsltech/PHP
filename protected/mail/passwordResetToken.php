@@ -6,12 +6,13 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $user app\models\User */
 
 $resetLink = $user->getResetUrl();
 ?>
+<?= $this->render ('header.php');?>
+<!--- body start-->
 <tr>
-	<td style="padding: 20px 30px">
+	<td style="padding: 20px 30px; ">
 		<table width="100%">
 			<tr>
 				<td style="padding: 20px 30px 20px 30px; background: #5a9768"
@@ -37,4 +38,6 @@ $resetLink = $user->getResetUrl();
 		</p>
 	</td>
 </tr>
+<!--body end-->
+<?= $this->render ('footer.php');?>
 

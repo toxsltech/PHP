@@ -21,6 +21,13 @@ use yii\widgets\Pjax;
             'class' => 'table table-bordered'
         ],
         'columns' => [
+            // ['class' => 'yii\grid\SerialColumn','header'=>'<a>S.No.<a/>'],
+            [
+                'name' => 'check',
+                'class' => 'yii\grid\CheckboxColumn',
+                'visible' => User::isAdmin()
+            ],
+
             'id',
             'content:html',
             'user_ip',
@@ -45,6 +52,7 @@ use yii\widgets\Pjax;
                     return $data->getRelatedDataLink('created_by_id');
                 }
             ],
+
             [
                 'class' => 'app\components\TActionColumn',
                 'template' => '{view} {delete}',

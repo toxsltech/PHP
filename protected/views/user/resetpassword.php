@@ -1,49 +1,66 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use app\components\TActiveForm;
 
 // $this->title = 'Change Password';
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<?php if (Yii::$app->session->hasFlash('success')){ ?>
-<div class="alert alert-success">
+?><br>
+<br>
+<br>
+<br>
+<?php if (Yii::$app->session->hasFlash('success')): ?>
+<div class="alert alert-success" >
     <?php echo Yii::$app->session->getFlash('success')?>
 </div>
-<?php } else { ?>
+<?php endif; ?>
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+<div class="alert alert-danger">
+    <?php echo Yii::$app->session->getFlash('error')?>
+</div>
+<?php endif; ?>
 
-<section class="login-signup py-5">
-	<div class="container-fluid">
-		<div class=" row p-3 justify-content-center">
-			<div class="order-1 col-lg-5 order-lg-2">
-				<div class="login-box">
-					<h3 class="section-title mb-3">change password</h3>  
-					<p>Please fill out the following fields to change password :</p>
-					 <?php
+<div class="container mb-100" style="margin-top:100px;">
+<div class="row">
+<div class="col-md-7 mx-auto">
 
-                    $form = TActiveForm::begin([
-                        'id' => 'changepassword-form',
-                        'options' => [
-                            'class' => 'form-horizontal'
-                        ],
-                        'fieldConfig' => [
-                            'template' => "{label}
-                                        {input}
-                                        {error}"
-                        ]
-                    ]);
-                    ?>
-                         <?=$form->field ( $model, 'password', [ 'inputOptions' => [ 'placeholder' => '' ] ] )->passwordInput ()?>
-                         <?=$form->field ( $model, 'confirm_password', [ 'inputOptions' => [ 'placeholder' => '' ] ] )->passwordInput (['class' => 'form-control'])?>
-                        <div class="text-center">
-                		<?=Html::submitButton ( 'Change password', [ 'class' => 'btn btn-primary' ] )?>
-                        </div>
-                    <?php TActiveForm::end(); ?>
-					     </div>
-			</div>
+	<div class="site-changepassword right-bar">
+		
+		<div class="d-flex align-items-center sign-top">
+            <h4 class="ml-3"> Change Password</h4>
+          </div>
+		<br>
+		<p class="ml-3">Please fill out the following fields to change password :</p>
+		<br>
+   
+    <?php
+    
+    $form = ActiveForm::begin([
+        'id' => 'changepassword-form',
+        'options' => [
+            'class' => 'form-horizontal'
+        ],
+        'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-12\">
+                        {input}</div>\n<div class=\"col-lg-5\">
+                        {error}</div>",
+            'labelOptions' => [
+                'class' => 'col-lg-2 control-label',
+                'style'=>' '
+            ]
+        ]
+    ]);
+    ?>
+				
+				
+         <?=$form->field ( $model, 'password', [ 'inputOptions' => [ 'placeholder' => '','class'=>'form-control w-100','style'=>'border-radius: 35px;','id'=>'password'] ] )->passwordInput ()?>
+          
+        <div class="clearfix">
+			<div class="col-lg-offset-3 col-lg-12">
+                <?=Html::submitButton ( 'Change password', [ 'class' => 'btn btn-primary' ] )?>
+            </div>
 		</div>
-	
-	</div>
-</section>
-
-<?php } ?>
+    <?php ActiveForm::end(); ?>
+</div>
+</div>
+</div>
+</div>

@@ -1,15 +1,12 @@
 <?php
+
 use yii\helpers\Html;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Feed */
 
-$this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Feeds'),
-    'url' => [
-        'index'
-    ]
-];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Feeds'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Add');
 ?>
 

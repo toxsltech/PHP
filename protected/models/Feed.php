@@ -65,7 +65,6 @@ class Feed extends \app\components\TActiveRecord
             self::STATE_ACTIVE => "success",
             self::STATE_DELETED => "danger"
         ];
-        
         return isset($list[$this->state_id]) ? \yii\helpers\Html::tag('span', $this->getState(), [
             'class' => 'badge badge-' . $list[$this->state_id]
         ]) : 'Not Defined';

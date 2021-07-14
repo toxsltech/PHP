@@ -12,7 +12,7 @@
 use yii\widgets\Pjax;
 
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Dashboard')
+	'label' => Yii::t('app', 'Dashboard')
 ];
 ?>
 
@@ -31,12 +31,12 @@ $this->params['breadcrumbs'][] = [
 			<div class="content-section">
 				<?php Pjax::begin(['id'=>'search-pjax-ajax-tabs','enablePushState'=>false]); ?>			
 				<?php
-    $this->context->startPanel();
-    foreach ($items as $item) {
-        $this->context->addPanelUrl($item['title'], $item['url']);
-    }
-    $this->context->endPanel();
-    ?>
+				$this->context->startPanel();
+				foreach ($items as $item) {
+					$this->context->addPanelUrl($item['title'], $item['url']);
+				}
+				$this->context->endPanel();
+				?>
 				<?php Pjax::end(); ?>
 			</div>
 		</div>

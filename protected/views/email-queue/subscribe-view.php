@@ -42,8 +42,9 @@
 						<div class="email-list-view">
 							<h1>Thank You</h1>
 							<p>We are happy to see you back</p>
-							<hr/>
-                       </div>
+							<hr />
+
+						</div>
 					</div>
 				</div>
 			</div>

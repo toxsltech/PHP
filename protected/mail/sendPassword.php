@@ -6,10 +6,12 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $user app\models\User */
+/* @var $user common\models\User */
 
 $Link = $user->getLoginUrl();
 ?>
+<?= $this->render ( 'header.php' );?>
+<!--- body start-->
 <tr>
 	<td style="padding: 20px 30px">
 		<table width="100%">
@@ -36,3 +38,8 @@ $Link = $user->getLoginUrl();
 		</p>
 	</td>
 </tr>
+<!--body end-->
+
+<?= $this->render ( 'footer.php' );?>
+
+

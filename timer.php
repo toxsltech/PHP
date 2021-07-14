@@ -26,7 +26,6 @@ function cmd($application, $cmd)
         dlog($ex->getTraceAsString());
     }
 }
-
 cmd($application, 'email-queue/send');
 
 flock($fp, LOCK_UN);

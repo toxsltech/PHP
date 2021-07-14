@@ -12,7 +12,6 @@ use yii\web\AssetBundle;
  *@copyright : ToXSL Technologies Pvt. Ltd. < www.toxsl.com >
  *@author	 : Shiv Charan Panjeta < shiv@toxsl.com >
  */
-
 class AppAsset extends AssetBundle {
 	public $basePath = '@webroot';
 	public $baseUrl = '@web';

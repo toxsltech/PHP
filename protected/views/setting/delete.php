@@ -40,13 +40,10 @@ echo \app\components\TDetailView::widget([
                     'attribute' => 'type_id',
                     'value' => $model->getType()
                 ],
-            /*[
-			'attribute' => 'state_id',
-			'format'=>'raw',
-			'value' => $model->getStateBadge(),],*/
             'created_by_id'
             ]
         ])?>
+         <?php  ?>
          <?php
 
 $form = TActiveForm::begin([
@@ -55,7 +52,9 @@ $form = TActiveForm::begin([
                 'class' => 'row'
             ]
         ]);
-        ?>        <div class="col-md-12 text-right">
+        ?>
+         echo $form->errorSummary($model);	
+         ?>         <div class="col-md-12 text-right">
             <?= Html::submitButton('Confirm', ['id'=> 'setting-form-submit','class' =>'btn btn-success']) ?>
          </div>
          <?php TActiveForm::end(); ?>

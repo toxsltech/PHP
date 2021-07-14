@@ -92,7 +92,6 @@ class LoginHistory extends \app\components\TActiveRecord
             self::STATE_FAILED => "primary",
             self::STATE_SUCCESS => "success"
         ];
-        
         return isset($list[$this->state_id]) ? \yii\helpers\Html::tag('span', $this->getState(), [
             'class' => 'badge badge-' . $list[$this->state_id]
         ]) : 'Not Defined';
@@ -120,7 +119,7 @@ class LoginHistory extends \app\components\TActiveRecord
                 $this->user_id = self::getCurrentUser();
             if (! isset($this->created_on))
                 $this->created_on = date('Y-m-d H:i:s');
-        } else {}
+        }
         return parent::beforeValidate();
     }
 
@@ -161,8 +160,7 @@ class LoginHistory extends \app\components\TActiveRecord
             ],
             [
                 [
-                    'created_on',
-                    'code'
+                    'created_on'
                 ],
                 'safe'
             ],
@@ -217,7 +215,7 @@ class LoginHistory extends \app\components\TActiveRecord
             'state_id' => Yii::t('app', 'State'),
             'type_id' => Yii::t('app', 'Type'),
             'code' => Yii::t('app', 'Code'),
-            'created_on' => Yii::t('app', 'Created On')
+            'created_on' => Yii::t('app', 'Create Time')
         ];
     }
 

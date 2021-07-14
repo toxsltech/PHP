@@ -13,6 +13,8 @@
 namespace app\base;
 
 use app\models\User;
+use app\modules\blog\models\Category as BlogCategory;
+use app\modules\blog\models\Post as Blog;
 use app\modules\feature\models\Feature;
 use app\modules\feature\models\Type as FeatureType;
 
@@ -29,25 +31,8 @@ class TDefaultData
                 'role_id' => User::ROLE_ADMIN,
                 'password' => 'admin@123'
             ]
-        ]);
-        FeatureType::addData([
-            [
-                'title' => 'Core',
-                'type_id' => 1
-            ]
-        ]);
-        Feature::addData([
-            [
-                'title' => 'Advanced Applicant Tracking',
-                'order_id' => 1,
-                'type_id' => 1
-            ],
-            [
-                'title' => 'AI Based Resume Parsing',
-                'order_id' => 2,
-                'type_id' => 1
-            ]
-        ]);
+        ]);      
+
         User::log(__FUNCTION__ . " ==> End");
     }
 }

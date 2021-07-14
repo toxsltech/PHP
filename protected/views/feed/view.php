@@ -38,25 +38,29 @@ $this->params['breadcrumbs'][] = (string) $model;
                 'user_ip',
                 'user_agent',
                 'model_id',
+                [
+                    'attribute' => 'type_id',
+                    'value' => $model->getType()
+                ],
                 'created_on:datetime',
                 [
                     'attribute' => 'created_by_id',
                     'format' => 'raw',
-                    'value' => $model->getRelatedDataLink('created_by_id')
+                    'value' => function($data){ return $data->getRelatedDataLink('created_by_id');}
                 ]
             ]
         ])?>
          <?php  echo $model->content;?>
+         <?php
+
+        echo UserAction::widget([
+            'model' => $model,
+            'attribute' => 'state_id',
+            'states' => $model->getStateOptions()
+        ]);
+        ?>
       </div>
 	</div>
-	   <?php
-
-    echo UserAction::widget([
-        'model' => $model,
-        'attribute' => 'state_id',
-        'states' => $model->getStateOptions()
-    ]);
-    ?>
 	<div class="card">
 		<div class="card-body">
 			<div class="feed-panel">

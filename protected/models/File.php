@@ -375,6 +375,7 @@ class File extends \app\components\TActiveRecord
         if ($model == null) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
         return $model;
     }
 }

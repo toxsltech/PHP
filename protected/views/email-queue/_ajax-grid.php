@@ -11,17 +11,10 @@ use yii\widgets\Pjax;
 
 ?>
 
-<?php
-if (! empty($menu))
-    echo Html::a($menu['label'], $menu['url'], $menu['htmlOptions']);
-?>
-
-
-
 <?php Pjax::begin(['id'=>'email-queue-pjax-ajax-grid','enablePushState'=>false,'enableReplaceState'=>false]); ?>
     <?php
 
-    echo TGridView::widget([
+echo TGridView::widget([
         'id' => 'email-queue-ajax-grid-view',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

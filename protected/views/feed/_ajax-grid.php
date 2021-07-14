@@ -50,10 +50,11 @@ use yii\widgets\Pjax;
                     return $data->getRelatedDataLink('created_by_id');
                 }
             ],
+
             [
                 'class' => 'app\components\TActionColumn',
-                'template' => '{view} {delete}',
-                'header' => '<a>Actions</a>'
+                'header' => '<a>Actions</a>',
+                'template'=>'{view} {delete}'
             ]
         ]
     ]);

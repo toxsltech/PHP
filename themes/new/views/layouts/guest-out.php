@@ -1,97 +1,107 @@
 <?php
 use app\assets\AppAsset;
+use app\components\FlashMessage;
+use app\components\gdpr\Gdpr;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-// $this->title = yii::$app->name;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage()?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta charset="<?= Yii::$app->charset ?>" />
-    <?= Html::csrfMetaTags()?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head()?>
+      <?= Html::csrfMetaTags()?>
+      <title> <?= Html::encode($this->title) ?></title>
+      <?php $this->head()?>
+      <link rel="shortcut icon"
+	href="<?php $this->theme->getUrl('images/logo1.png')?>" type="image/png">
 
-
-<link rel="shortcut icon"
-	href="<?= $this->theme->getUrl('img/favicon.ico')?>" type="image/png">
 <link id="theme-style" rel="stylesheet"
-	href="<?php echo $this->theme->getUrl('css/styles.css')?>">
-
-
+	href="<?php echo $this->theme->getUrl('css/style.css')?>">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracol</title>
+<link
+	href="<?php echo $this->theme->getUrl('css/font-awesome.min.css')?>"
+	rel="stylesheet">
+<!-- <link -->
+<!-- 	href="<?php echo $this->theme->getUrl('vendors/stroke-icon/style.css')?>"  -->
+<!-- 	rel="stylesheet"> -->
+<link
+	href="<?php echo $this->theme->getUrl('vendors/flat-icon/flaticon.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/revolution/css/settings.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/revolution/css/layers.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/revolution/css/navigation.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/animate-css/animate.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/magnify-popup/magnific-popup.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('vendors/owl-carousel/owl.carousel.min.css')?>"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('js/owl-carousel/owl.carousel.min.css')?>"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"
+	rel="stylesheet">
+<link
+	href="<?php echo $this->theme->getUrl('css/owl.theme.default.min.css')?>"
+	rel="stylesheet">
+<link href="<?php echo $this->theme->getUrl('css/style.css')?>"
+	rel="stylesheet">
+<link href="<?php echo $this->theme->getUrl('css/helper.css')?>"
+	rel="stylesheet">
+<link href="<?php echo $this->theme->getUrl('css/responsive.css')?>"
+	rel="stylesheet">
+<style>
+@import
+	url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+</style>
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap"
+	rel="stylesheet">
 </head>
 <body class="home-page">
-<?php $this->beginBody()?>
-<!-- * Facebook Like button script starts -->
-
-	<!-- ******HEADER****** -->
-	<header id="header" class="header">
-		<div class="container">
-			<h1 class="logo mb-3">
-				<a href="<?= Url::home();?>"> <img
-					src="<?= $this->theme->getUrl('img/logo.png');?>" width="130px"
-					alt="<?=Yii::$app->name?>">
-				</a>
-			</h1>
-			<!--//logo-->
-			<nav id="main-nav" class="navbar navbar-expand-lg main-nav pr-0 mb-0">
-				<button class="navbar-toggler navbar-toggle" type="button"
-					data-toggle="collapse" data-target="#collapsibleNavbar">
-					<span class="navbar-toggler-icon icon-bar"></span> <span
-						class="navbar-toggler-icon icon-bar"></span> <span
-						class="navbar-toggler-icon icon-bar"></span>
-				</button>
-			</nav>
-
-			<!--//main-nav-->
-		</div>
-		<!--//container-->
-	</header>
-	<!--//header-->
-
-
-
-	<!-- body content start-->
+      <?php $this->beginBody()?>
+    
+      <?= Gdpr::widget();?>
+      <?= FlashMessage::widget();?>
+      <!-- body content start-->
 	<div class="main_wrapper">
-		<?= $content?>
-       
-	</div>
+         <?= $content?>
+      </div>
 	<!--body wrapper end-->
+	<?=$this->render('footer.php');?>
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="hk_tiny_footer">
-						<p>&copy; 2016-<?php echo date('Y')?>  <a target="_blank"
-								href="<?= Yii::$app->params['companyUrl'];?>"><?= Yii::$app->params['company']?></a>
-							| All Rights Reserved
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-
-	<script type="text/javascript"
-		src="<?php echo $this->theme->getUrl('assets/js/main.js')?>"></script>
-
-
-	<!--[if !IE]>-->
-
-	<!--<![endif]-->
-    <?php $this->endBody()?>
-
-</body>
-<?php $this->endPage()?>
+	<!-- Javascript -->
+	<script
+		src="<?php echo $this->theme->getUrl('js/owl-carousel/owl.carousel.min.js')?>"></script>
+	<script src="<?php echo $this->theme->getUrl('js/custom.js"')?>"></script>
+	<script src="<?php echo $this->theme->getUrl('js/popper.min.js')?>"></script>
+	<script
+		src="<?php echo $this->theme->getUrl('vendors/owl-carousel/owl.carousel.min.js')?>"></script>
+	<script src="<?php echo $this->theme->getUrl('js/theme.js')?>"></script>
+	<script src="<?php echo $this->theme->getUrl('js/matchHeight.js')?>"></script>
+	<!--custom js-->
+	<script src="<?= $this->theme->getUrl('html/js/scripts.js')?>"></script>
+     <?php $this->endBody()?>  
+   </body>
+   <?php $this->endPage()?>
 </html>

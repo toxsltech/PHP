@@ -19,4 +19,4 @@
 	<br>
 	<p><?= \Yii::$app->name; ?> Team</p>
 	<p style="margin: 0 auto;">&copy; <?= date("Y") ?> <?= \Yii::$app->name; ?> | All Rights Reserved</p>
-</div>s
+</div>

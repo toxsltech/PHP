@@ -1,6 +1,5 @@
 <?php
-use app\components\PageWidget;
-use app\models\Page;
+use app\modules\page\models\Page;
 
 /* @var $this yii\web\View */
 /*
@@ -8,28 +7,29 @@ use app\models\Page;
  * $this->params ['breadcrumbs'] [] = $this->title;
  */
 ?>
-<section class="pagetitle-section">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<h1 class="mb-0 mt-0">Privacy Policy</h1>
-			</div>
-		</div>
-	</div>
-</section>
-<div class="site-about">
-	<div class="container-fluid">
-		<div class="row other-wrapper ">
-	<?php
-$about = Page::find()->where([
-    'type_id' => Page::TYPE_PRIVACY_POLICY
-])->one();
-if ($about) {
-    echo $about->description;
+<!--================Header Area =================-->
+<div class="banner_area">
+  <h2>Privacy Policy</h2>
+</div>
+<!--================Slider Area =================-->
+<section class="space-ptb bg-light rider-dashbord">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="entry-content">
+   	<?php
+
+if ($model) {
+    echo $model->description;
 } else {
     echo "Info will soon be available";
 }
 ?>
-</div>
-	</div>
-</div>
+   
+            </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ 

@@ -58,7 +58,9 @@ use yii\helpers\Url;
         ]);
         ?>"
 										class="content-link"> Click Here To re-subscribe</a>
-								<hr/>
+								
+								
+								<hr />
 							</div>
 						</div>
 					</div>

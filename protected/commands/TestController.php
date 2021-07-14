@@ -18,6 +18,8 @@ class TestController extends TConsoleController
 
     private $models = [
 
+        'app\modules\blog\models\Category',
+        'app\modules\blog\models\Post',
         'app\modules\feature\models\Feature'
     ];
 
@@ -63,13 +65,19 @@ class TestController extends TConsoleController
         self::log('actionReset :' . $dontSkip);
 
         $tables = [
-            'app\models\EmailQueue'
+            'app\modules\recruitment\models\Vacancy',
+
+            'app\modules\candidate\models\Profile',
+            'app\modules\emailreader\models\Email',
+            'app\modules\company\models\Profile'
         ];
+
         foreach ($tables as $modelClass) {
             foreach ($modelClass::find()->each() as $model) {
                 $model->delete();
             }
         }
     }
+
 }
 

@@ -16,7 +16,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Add');
 	<div class="user-create card">
 	<?=  \app\components\PageHeader::widget(); ?>
 	</div>
-   <div class="content-section card">
+
+	<div class="content-section card">
 		<?= $this->render ( '_form', [ 'model' => $model ] )?></div>
 </div>
 

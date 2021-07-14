@@ -151,6 +151,7 @@ class EmailQueue extends EmailQueueModel
             'message_id',
             $this->message_id
         ]);
+
         return $dataProvider;
     }
 }

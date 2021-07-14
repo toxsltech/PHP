@@ -14,6 +14,8 @@ return [
     'adminEmail' => 'admin@toxsl.in',
     'companyUrl' => 'https://www.toxsl.com',
     'user.passwordResetTokenExpire' => 3600,
-    'bsVersion' => '4.x'
     // 'domain' => 'toxsl.com',
+
+    'senangpay_merchant_id' => '421160912670663',
+    'senangpay_secret_id' => '25375-715130657'
 ];

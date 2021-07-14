@@ -1,13 +1,12 @@
 Options +FollowSymLinks
 IndexIgnore */*
 RewriteEngine on
-RewriteRule "^(.*/)?\.git/" - [F,L]
 
 #########################
 # hide files
 #########################
 
-<FilesMatch "^((.*)\.yml|(.*)\.md|(.*)\.json|(.*)\.lock|vendor)$">
+<FilesMatch "^(\.git(.*)|(.*)\.yml|(.*)\.md|(.*)\.json|(.*)\.lock|vendor)$">
   Order allow,deny
   Deny from all
 </FilesMatch>

@@ -37,7 +37,7 @@ class File extends FileModel
                     'key',
                     'model_type',
                     'type_id',
-                    'created_on',
+								'created_on',
                     'created_by_id'
                 ],
                 'safe'
@@ -67,9 +67,8 @@ class File extends FileModel
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = FileModel::find()->alias('f')->joinWith('createdBy as u');
+	public function search($params) {
+		$query = FileModel::find ()->alias('f')->joinWith('createdBy as u');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -85,10 +84,10 @@ class File extends FileModel
         }
 
         $query->andFilterWhere([
-            'f.id' => $this->id,
-            'f.size' => $this->size,
-            'f.model_id' => $this->model_id,
-            'f.created_on' => $this->created_on
+				'f.id' => $this->id,
+				'f.size' => $this->size,
+				'f.model_id' => $this->model_id,
+		        'f.created_on' => $this->created_on,
         ]);
 
         $query->andFilterWhere([
@@ -113,7 +112,7 @@ class File extends FileModel
         ])
             ->andFilterWhere([
             'like',
-            'u.full_name',
+		    'u.full_name',
             $this->created_by_id
         ]);
 

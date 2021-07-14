@@ -30,7 +30,8 @@ class User extends UserModel
                     'role_id',
                     'state_id',
                     'type_id',
-                    'login_error_count'
+                    'login_error_count',
+                    'created_by_id'
                 ],
                 'integer'
             ],
@@ -44,14 +45,11 @@ class User extends UserModel
                     'contact_no',
                     'address',
                     'latitude',
+                    'longitude',
                     'city',
-                    'is_online',
-                    'is_favorite',
-                    'emoji_file',
                     'country',
                     'zipcode',
                     'language',
-                    'cover_file',
                     'profile_file',
                     'last_visit_time',
                     'last_action_time',
@@ -59,16 +57,9 @@ class User extends UserModel
                     'activation_key',
                     'timezone',
                     'created_on',
-                    'updated_on',
-                    'created_by_id'
+                    'updated_on'
                 ],
                 'safe'
-            ],
-            [
-                [
-                    'rating'
-                ],
-                'number'
             ]
         ];
     }
@@ -97,7 +88,11 @@ class User extends UserModel
      */
     public function search($params)
     {
-        $query = UserModel::find()->alias('u')->joinWith('createdBy as cb');
+        $query = UserModel::find()->where([
+            '!=',
+            'role_id',
+            User::ROLE_ADMIN
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -113,67 +108,63 @@ class User extends UserModel
         }
 
         $query->andFilterWhere([
-            'u.id' => $this->id,
-            'u.date_of_birth' => $this->date_of_birth,
-            'u.gender' => $this->gender,
-            'u.is_online' => $this->is_online,
-            'u.is_favorite' => $this->is_favorite,
-            'u.emoji_file' => $this->emoji_file,
-            'u.rating' => $this->rating,
-            'u.cover_file' => $this->cover_file,
-            'u.tos' => $this->tos,
-            'u.role_id' => $this->role_id,
-            'u.state_id' => $this->state_id,
-            'u.type_id' => $this->type_id,
-            'u.last_visit_time' => $this->last_visit_time,
-            'u.last_action_time' => $this->last_action_time,
-            'u.last_password_change' => $this->last_password_change,
-            'u.login_error_count' => $this->login_error_count
+            // 'u.id' => $this->id,
+            'date_of_birth' => $this->date_of_birth,
+            'gender' => $this->gender,
+            'tos' => $this->tos,
+            'role_id' => $this->role_id,
+            'state_id' => $this->state_id,
+            'type_id' => $this->type_id,
+            'last_visit_time' => $this->last_visit_time,
+            'last_action_time' => $this->last_action_time,
+            'last_password_change' => $this->last_password_change,
+            'login_error_count' => $this->login_error_count,
+            'created_by_id' => $this->created_by_id
         ]);
 
         $query->andFilterWhere([
             'like',
-            'u.full_name',
+            'full_name',
             $this->full_name
         ])
             ->andFilterWhere([
             'like',
-            'u.email',
+            'email',
             $this->email
         ])
             ->andFilterWhere([
             'like',
-            'u.about_me',
+            'about_me',
             $this->about_me
         ])
             ->andFilterWhere([
             'like',
-            'u.contact_no',
+            'contact_no',
             $this->contact_no
         ])
             ->andFilterWhere([
             'like',
-            'u.address',
+            'address',
             $this->address
         ])
             ->andFilterWhere([
             'like',
-            'cb.full_name',
-            $this->created_by_id
-        ])
-            ->andFilterWhere([
-            'like',
-            'u.latitude',
+            'latitude',
             $this->latitude
         ])
             ->andFilterWhere([
             'like',
-            'u.city',
+            'longitude',
+            $this->longitude
+        ])
+            ->andFilterWhere([
+            'like',
+            'city',
             $this->city
         ])
             ->andFilterWhere([
             'like',
-            'u.country',
+            'country',
             $this->country
         ])
             ->andFilterWhere([
@@ -183,20 +174,19 @@ class User extends UserModel
         ])
             ->andFilterWhere([
             'like',
-            'u.language',
+            'language',
             $this->language
         ])
             ->andFilterWhere([
             'like',
-            'u.created_on',
+            'created_on',
             $this->created_on
         ])
             ->andFilterWhere([
             'like',
-            'u.timezone',
+            'timezone',
             $this->timezone
         ]);
-
         return $dataProvider;
     }
 }

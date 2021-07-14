@@ -15,6 +15,7 @@ use yii\rest\Serializer;
 class TSerializer extends Serializer
 {
     public $collectionEnvelope = 'list';
+
     /**
      * Serializes a model object.
      *

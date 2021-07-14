@@ -13,7 +13,7 @@ use app\components\TActiveForm;
 
     <?php
     $form = TActiveForm::begin([
-        'id' => 'file-form',
+      'id' => 'file-form',
         'options' => [
             'class' => 'row'
         ]
@@ -38,4 +38,5 @@ use app\components\TActiveForm;
     </div>
 
     <?php TActiveForm::end(); ?>
+
 </div>

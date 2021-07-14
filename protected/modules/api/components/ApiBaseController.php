@@ -167,7 +167,9 @@ abstract class ApiBaseController extends ActiveController
     protected function serializeData($data)
     {
         $alldata = Yii::createObject($this->serializer)->serialize($data);
-        $alldata['datecheck'] = ! defined(DATECHECK) ? DATECHECK : null;
+        if (defined('DATECHECK')) {
+            $alldata['datecheck'] = DATECHECK;
+        }
         $alldata['copyrighths'] = 'ToXSL';
         return $alldata;
     }

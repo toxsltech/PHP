@@ -16,12 +16,6 @@ use app\components\filters\AccessControl;
 use app\models\User;
 use Yii;
 use yii\helpers\StringHelper;
-use app\models\Domain;
-use app\models\Focus;
-use app\models\Reward;
-use app\models\Emoji;
-use app\models\Language;
-use app\models\TargetArea;
 
 class SearchController extends TController
 {
@@ -37,9 +31,9 @@ class SearchController extends TController
                             'index'
                         ],
                         'allow' => true,
-                        'roles' => [
-                            '@'
-                        ]
+                        'matchCallback' => function () {
+                        return User::isAdmin() || User::isSubAdmin();
+                        }
                     ]
                 ]
             ]
@@ -64,74 +58,15 @@ class SearchController extends TController
                         return $this->redirect($model->getUrl());
                     }
                 }
-                if ($searchModel == 'Domain') {
-                    if (($model = Domain::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Focus') {
-                    if (($model = Focus::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Reward') {
-                    if (($model = Reward::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Emoji') {
-                    if (($model = Emoji::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Language') {
-                    if (($model = Language::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Target-area') {
-                    if (($model = TargetArea::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
-                if ($searchModel == 'Target-trade') {
-                    if (($model = TargetArea::findOne($id)) !== null) {
-                        return $this->redirect($model->getUrl());
-                    }
-                }
             }
         }
 
         // $this->layout = 'main';
         $models = [
+
             'app\models\User' => [
                 'full_name',
                 'email'
-            ],
-            'app\models\Domain' => [
-                'title'
-            ],
-            'app\models\Focus' => [
-                'title'
-            ],
-            'app\models\Reward' => [
-                'title'
-            ],
-            'app\models\Emoji' => [
-                'title',
-                'description'
-            ],
-            'app\models\Language' => [
-                'title',
-                'description'
-            ],
-            'app\models\TargetArea' => [
-                'title',
-                'description'
-            ],
-            'app\models\TargetTrade' => [
-                'title',
-                'description'
             ]
         ];
 
@@ -168,7 +103,80 @@ class SearchController extends TController
         ]);
     }
 
+    public function actionContact()
+    {
+        return $this->render('contact');
+    }
+
+    public function actionFeatures()
+    {
+        $this->layout = 'guest-main';
+        return $this->render('features');
+    }
+
+    public function actionAbout()
+    {
+        $this->layout = 'guest-main';
+        return $this->render('about');
+    }
+
+    public function actionPricing()
+    {
+        $this->layout = 'guest-main';
+        return $this->render('pricing');
+    }
+
+    public function actionPrivacy()
+    {
+        $this->layout = 'guest-main';
+        return $this->render('privacy');
+    }
+
+    public function actionTerms()
+    {
+        $this->layout = 'guest-main';
+        return $this->render('terms');
+    }
+
     protected function updateMenuItems($model = null)
-    {}
+    {
+        // create static model if model is null
+        switch ($this->action->id) {
+            case 'add':
+                {
+                    $this->menu[] = array(
+                        'label' => Yii::t('app', 'Manage'),
+                        'url' => array(
+                            'index'
+                        ),
+                        'visible' => User::isAdmin()
+                    );
+                }
+                break;
+            default:
+            case 'view':
+                {
+                    $this->menu[] = array(
+                        'label' => '<span class="glyphicon glyphicon-list"></span>Manage',
+                        'title' => 'Manage',
+                        'url' => array(
+                            'index'
+                        ),
+                        'visible' => User::isAdmin()
+                    );
+
+                    if ($model != null)
+                        $this->menu[] = array(
+                            'label' => Yii::t('app', 'Update'),
+                            'url' => array(
+                                'update',
+                                'id' => $model->id
+                            ),
+                            'visible' => ! User::isAdmin()
+                        );
+                }
+                break;
+        }
+    }
 }
 

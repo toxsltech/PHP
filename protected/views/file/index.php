@@ -15,21 +15,21 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Index');
 ;
 ?>
 <div class="wrapper">
-	<div class="card">
-		<div class="file-index">
+<div class="card">
+			<div class="file-index">
 		<?=  \app\components\PageHeader::widget(); ?>
 		</div>
-	</div>
+		</div>
 
-	<div class="card">
-		<header class="card-header head-border">   <?php echo strtoupper(Yii::$app->controller->action->id); ?> </header>
-		<div class="card-body">
-			<div class="content-section clearfix">
+		<div class="card">
+			<header class="card-header head-border">   <?php echo strtoupper(Yii::$app->controller->action->id); ?> </header>
+			<div class="card-body">
+				<div class="content-section clearfix">
 					
 		<?php echo $this->render('_grid', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]); ?>
-  </div>
+</div>
+			</div>
 		</div>
-	</div>
 
 </div>
 

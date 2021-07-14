@@ -36,4 +36,5 @@ use yii\helpers\Html;
     </div>
 
     <?php TActiveForm::end(); ?>
+
 </div>

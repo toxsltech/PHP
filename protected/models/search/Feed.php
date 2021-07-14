@@ -131,6 +131,7 @@ class Feed extends FeedModel
             'cb.full_name',
             $this->created_by_id
         ]);
+
         return $dataProvider;
     }
 }
